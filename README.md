@@ -1,6 +1,7 @@
+M3U-TOOLS
 Here you will find our full site. Each html file contains all code html,css,scripts.
 
-There are free to use and modify. You must link back to this GitHub or state it's a modified version of the tool modified.
+There are free to use and modify. You must link back to this GitHub or state it's a modified version of the tool you modified.
 
 If you would like to contribute to the main source feel free to contact us and share your ideas/code.
 
