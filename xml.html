@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<center>    <h2>XML Editer</h2></center>
+<center>    
+<select id="archive-pages" onchange="window.open ( this.value, '_self' );">
+
+  <option value="#">
+  
+    Menu
+    
+    </option>
+
+  <option value="https://m3u-tools.tiiny.site/">
+  
+    Home
+    
+    </option>
+    
+  <option value="https://m3u-tools.tiiny.site/m3u.html">
+  
+    M3U editer
+    
+    </option>
+    
+  <option value="https://m3u-tools.tiiny.site/xml.html">
+  
+    XML Editer
+    
+    </option>
+    
+  <option value="https://m3u-tools.tiiny.site/gz.html">
+  
+    XML.gz Editer
+    
+    </option>
+    
+  <option value="https://github.com/m3u-tools/m3utools">
+  
+    GitHub
+    
+    </option>
+  </select>
+</center>
+    <style>
+        /* Dark Mode Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text color */
+        }
+        input, button {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            background-color: #333; /* Dark input and button background */
+            color: #e0e0e0; /* Light text for inputs and button */
+            border: 1px solid #555; /* Light border */
+            border-radius: 5px;
+        }
+        button {
+            background-color: #1a73e8; /* Green button background */
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004d40; /* Darker green on hover */
+        }
+        #result {
+            margin-top: 20px;
+            background-color: #333; /* Dark background for result */
+            padding: 15px;
+            border-radius: 5px;
+        }
+        a {
+            display: block;
+            margin-top: 10px;
+            color: #00bfae; /* Light link color */
+            text-decoration: underline;
+        }
+            .box {
+        border: 2px solid #fff; /* Change border color to white */
+        padding: 20px;
+        margin: 20px auto;
+        background-color: #121212; /* Matches container background */
+        border-radius: 10px;
+        color: var(--text-color); /* Matches text color */
+    }
+        /* Bubble Text Style */
+    .bubble-text {
+        background-color: #333;   /* Dark background */
+        color: white;             /* White text */
+        padding: 2px 6px;         /* Padding inside the bubble */
+        font-family: monospace;   /* Monospaced font */
+        border-radius: 5px;       /* Rounded corners */
+    }
+    .bubble-text a {
+        color: white;               /* Set link text color to white */
+        text-decoration: none;      /* Remove underline */
+    }
+
+    .bubble-text a:hover {
+        text-decoration: underline; /* Optionally, add underline on hover */
+    }
+        h1 {
+            color: #1a73e8; /* Light green for heading */
+        }
+        p {
+            color: #e0e0e0; /* Light text for paragraph */
+        }
+         h2 {
+            color: #1a73e8; /* Light green for heading */
+        }
+        p {
+            color: #e0e0e0; /* Light text for paragraph */
+        }
+    </style>
+</head>
+<body>
+<center>    <h2>EPG URL Merger</h2></center>
+ <center>   <p>Enter up to 10 EPG URLs to merge:</p></center>
+
+    <!-- URL Inputs -->
+    <input type="url" id="url1" placeholder="EPG URL 1">
+    <input type="url" id="url2" placeholder="EPG URL 2">
+    <input type="url" id="url3" placeholder="EPG URL 3">
+    <input type="url" id="url4" placeholder="EPG URL 4">
+    <input type="url" id="url5" placeholder="EPG URL 5">
+    <input type="url" id="url6" placeholder="EPG URL 6">
+    <input type="url" id="url7" placeholder="EPG URL 7">
+    <input type="url" id="url8" placeholder="EPG URL 8">
+    <input type="url" id="url9" placeholder="EPG URL 9">
+    <input type="url" id="url10" placeholder="EPG URL 10">
+
+    <button onclick="mergeEPGs()">Merge and Download</button>
+
+    <div class="box"".">
+    <center>
+  	<h2>How to use.</h2>
+  	<p>Enter urls up to 10 at a time max.</p>
+    <p>Hit merge and download.</p>
+    </center>
+    </div>
+        <div id="result"><div style="text-align:center"></div>
+        <div class="info">
+    <center>
+    <p>When downloaded you can simple upload to dropbox or similar then shorten url using bit.ly or short url or any similar services.</p>
+
+     <p>THIS DOES NOT AUTOMATICALLY UPDATE EPG WHEN THEY ARE EXPIRED YOU NEED TO REMAKE OR FIND A SCRIPT TO AUTOMATICALLY DO IT. Each time you make name it the same reupload to Dropbox or similar service and youll be done it will use the same url.</p>
+
+    <p>Put this at the top of your playlist if you want it to load with your playlist. "Note, tvg-id in your playlist needs to match your epg to auto populate. Or else you will need to set it manually on your player such as tivimate.</p>
+<p></p>
+    <p>#EXTM3U url-tvg="link to epg here</p>
+    
+<div align='center'><a href='https://www.free-website-hit-counter.com'><img src='https://www.free-website-hit-counter.com/zc.php?d=9&id=2066&s=5' border='0' alt='Free Website Hit Counter'></a><br /><small><a href='https://www.free-website-hit-counter.com' title="Free Website Hit Counter">Free website hit counter</a></small></div>
+    </center>
+    <script>
+        async function mergeEPGs() {
+            const urls = [
+                document.getElementById("url1").value,
+                document.getElementById("url2").value,
+                document.getElementById("url3").value,
+                document.getElementById("url4").value,
+                document.getElementById("url5").value,
+                document.getElementById("url6").value,
+                document.getElementById("url7").value,
+                document.getElementById("url8").value,
+                document.getElementById("url9").value,
+                document.getElementById("url10").value
+            ].filter(url => url.trim() !== "");
+
+            if (urls.length === 0) {
+                alert("Please enter at least one URL.");
+                return;
+            }
+
+            const parser = new DOMParser();
+            const serializer = new XMLSerializer();
+            const mergedDoc = parser.parseFromString("<tv></tv>", "application/xml");
+
+            for (const url of urls) {
+                try {
+                    const response = await fetch(url);
+                    const xmlText = await response.text();
+                    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+
+                    // Append each child node from the fetched XML into the merged document
+                    Array.from(xmlDoc.documentElement.children).forEach(child => {
+                        mergedDoc.documentElement.appendChild(mergedDoc.importNode(child, true));
+                    });
+                } catch (error) {
+                    console.error("Error fetching or parsing XML from URL:", url, error);
+                    alert(`Failed to fetch or parse: ${url}`);
+                    return;
+                }
+            }
+
+            // Serialize the merged XML and allow the user to download it
+            const mergedXML = serializer.serializeToString(mergedDoc);
+            const blob = new Blob([mergedXML], { type: "application/xml" });
+            const url = URL.createObjectURL(blob);
+
+            const downloadLink = document.createElement("a");
+            downloadLink.href = url;
+            downloadLink.download = "merged_epg.xml";
+            downloadLink.textContent = "Click here to download your merged EPG file";
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("result").appendChild(downloadLink);
+        }
+    </script>
+</body>
+</html>
