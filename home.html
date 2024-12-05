@@ -4,113 +4,241 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M3U TOOLS</title>
+    <!-- Navigation Bar -->
+  <div class="navbar">
+        <div class="menu">
+           <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+  </div>
     <style>
         body {
             background-color: #121212;
             color: white;
             font-family: Arial, sans-serif;
-            text-align: center;
+            margin: 0;
+            padding: 0;
         }
+
         h1 {
-            font-size: 3em;
-            margin-top: 50px;
-            color: #2196F3; /* Blue color */
-        }
-        .container {
-            margin-top: 30px;
-        }
-        .image {
-            width: 80%;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-        footer {
-            position: fixed;
-            bottom: 10px;
-            width: 100%;
+            font-size: 2.5em;
+            margin: 30px 0;
+            color: #2196F3;
             text-align: center;
-            font-size: 14px;
-            color: gray;
         }
-                 h2 {
+
+        h2 {
+            color: #1a73e8;
+            font-size: 1.8em;
+        }
+
+/* scroll image */
+{
+            margin: 0;
+            padding: 0;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            height: auto;
+            background-color: #000; /* Optional background color for better visibility */
+        }
+
+        .scroll-container img {
+            height: 100vh; /* Ensures full height of the viewport */
+            width: auto; /* Keeps the image's aspect ratio */
+            flex-shrink: 0;
+            animation: scroll 15s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200%); }
+        }
+
+        @media (max-width: 768px) {
+            .scroll-container img {
+                height: auto; /* Adjust height for smaller screens */
+                max-height: 60vh; /* Limit height on mobile */
+                width: 100%; /* Fit the width of the screen */
+            }
+        }
+    /* Navigation Bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #000; /* Black background */
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar .logo {
+        font-size: 1.5em;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .navbar .menu {
+        display: flex;
+        gap: 10px; /* Reduced gap for smaller buttons */
+    }
+
+    .navbar .menu a {
+        text-decoration: none;
+        color: white; /* Default link color */
+        padding: 8px 12px; /* Smaller padding for compact buttons */
+        border-radius: 20px; /* Smaller border radius */
+        background-color: #1a73e8; /* Cool blue color */
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slight shadow for 3D effect */
+    }
+
+    .navbar .menu a:hover {
+        background-color: #1558b0; /* Darker blue on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+    }
+
+    /* Hamburger Menu (Mobile) */
+    .navbar .hamburger {
+        display: none;
+        font-size: 1.8em;
+        color: white;
+        cursor: pointer;
+    }
+
+    .navbar .menu-mobile {
+        display: none;
+        flex-direction: column;
+        background-color: #000; /* Black background for mobile */
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar .menu-mobile a {
+        padding: 10px 20px;
+        text-align: center;
+        color: white; /* Default link color */
+        background-color: #1a73e8; /* Cool blue color */
+        border-radius: 20px; /* Smaller border radius */
+        margin: 5px; /* Add margin for spacing */
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .navbar .menu-mobile a:hover {
+        background-color: #1558b0; /* Darker blue on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+    }
+
+    .navbar .menu-mobile.open {
+        display: flex;
+    }
+
+    /* Reset link styles for visited links to avoid purple color */
+    .navbar .menu a:visited,
+    .navbar .menu-mobile a:visited {
+        color: white; /* Keep link color white when visited */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .navbar .menu {
+            display:
+        }
+
+        .navbar .hamburger {
+            display: block;
+        }
+    }
+
+    .container {
+        margin-top: 100px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        color: gray;
+        padding: 5px 0;
+    }
+     h2 {
+        text-align: center;
+        color: var(--header-color, #121212);
+        margin-bottom: 20px;
+    }
+h2 {
             color: #1a73e8; /* Light green for heading */
         }
-    .github-button-container {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
-    }        
+h4 {
+            color: #121212; /* Light green for heading */
+        }
     </style>
 </head>
 <body>
-
-    <h1>M3U TOOLS</h1>
-
-    <div class="github-button-container">
-<a class="github-button" href="https://github.com/m3u-tools/m3utools" data-color-scheme="no-preference: dark; light: dark; dark: dark_dimmed;" data-size="" data-show-count="true" aria-label="Follow @m3u-tools on GitHub">m3u-tools GitHub</a>
-  </div>    
-<select id="archive-pages" onchange="window.open ( this.value, '_self' );">
-
-  <option value="#">
-  
-    Menu
-    
-    </option>
-
-  <option value="https://m3u-tools.tiiny.site/">
-  
-    Home
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/m3u.html">
-  
-    M3U editer
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/xml.html">
-  
-    XML Editer
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/gz.html">
-  
-    XML.gz Editer
-    
-    </option>
-    
-  <option value="https://github.com/m3u-tools/m3utools">
-  
-    GitHub
-    
-    </option>
-  </select>
-  <div><center>This site contains FREE tools to manage your m3u and m3u8 files. You can merge files or shrink one down. We also have a xml and xml.gz merger. There is NO logs NO saved info and NO sign up needed.<b>We also do not track our users.</b></center></div>
+<h4>test</h4>
+<h4>test</h4>
+<center><h2>M3U TOOLS</h2></center>
+    <!-- Page Content -->
     <div class="container">
-    <center><h2>M3U M3U8 Editor</h2></center>
-    <center><b>This tool will allow you to shrink down your m3u/m3u8. If your playlist is too large no problem load it up and only select what you want to keep. You can also merge you m3u/m3u8 together to make one list. Click the image to head over to the tool.</b></center>
-  <center>  <a href="https://m3u-tools.tiiny.site/m3u.html">
-  <img src="https://i.postimg.cc/pLQkBMbt/Screenshot-20241201-024036.png">
-</a></center>
-    <center><h2>XML Editor</h2></center>
-    <center><b>This tool will allow you to add up to 10 xml urls so you can merge them into one file. Click the image to head over to the tool.</b></center>
-<center>    <a href="https://m3u-tools.tiiny.site/xml.html">
-  <img src="https://i.postimg.cc/5tLHzbZw/Screenshot-20241201-024154.png">
-</a></center>
-    <center><h2>XML.gz Editor</h2></center>
-    <center><b>This tool will allow you to add up to 5 .gz file so you can merge them into one file. Click the image to head over to the tool.</b></center>
-<center>    <a href="https://m3u-tools.tiiny.site/gz.html">
-  <img src="https://i.postimg.cc/sXzM9brb/Screenshot-20241201-024224.png">
-</a></center>
-     <p>&copy; 2024 M3U TOOLS. All rights reserved.</p>
-    </div>
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-</body>
-    <footer>
-    </footer>
+        <p>
+            This site contains FREE tools to manage your M3U and M3U8 files. Merge or shrink playlists easily. We also provide XML and XML.gz tools with no log saving or user tracking.
+        </p>
 
+        <center><h2>M3U M3U8 Editor</h2>
+        <p>Shrink large playlists or merge multiple files into one.</p></center>
+    <div class="scroll-container">
+        <img src="https://i.ibb.co/hZxK7hH/m3u1.png" alt="M3U1">
+        <img src="https://i.ibb.co/Y2vb0vD/m3u2.png" alt="M3U2">
+        <img src="https://i.ibb.co/2WVDBb3/m3u3.png" alt="M3U3">
+        <!-- Repeat images to create a smooth infinite scroll -->
+        <img src="https://i.ibb.co/hZxK7hH/m3u1.png" alt="M3U1">
+        <img src="https://i.ibb.co/Y2vb0vD/m3u2.png" alt="M3U2">
+        <img src="https://i.ibb.co/2WVDBb3/m3u3.png" alt="M3U3">
+        </div>
+
+       <center> <h2>XML Editor</h2>
+        <p>Merge up to 10 XML URLs into one file.</p></center>
+        <div class="scroll-container">
+            <img src="https://i.ibb.co/x7PP5V6/xml.png" alt="XML1">
+            <img src="https://i.ibb.co/vjdGyv6/xml2.png" alt="XML2">
+            <img src="https://i.ibb.co/x7PP5V6/xml.png" alt="XML1">
+            <img src="https://i.ibb.co/vjdGyv6/xml2.png" alt="XML2">
+        </div>
+
+       <center> <h2>XML.gz Editor</h2>
+        <p>Combine up to 5 .gz files into one.</p></center>
+        <div class="scroll-container">
+            <img src="https://i.ibb.co/1fwPKXk/gz1.png" alt="GZ1">
+            <img src="https://i.ibb.co/sjhMSXm/gz2.png" alt="GZ2">
+            <img src="https://i.ibb.co/1fwPKXk/gz1.png" alt="GZ1">
+            <img src="https://i.ibb.co/sjhMSXm/gz2.png" alt="GZ2">
+        </div>
+    </div>
+<center>&copy; 2024 M3U TOOLS. All rights reserved.</center>
+
+
+    <script>
+    </script>
 </body>
 </html>

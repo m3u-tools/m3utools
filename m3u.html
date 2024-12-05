@@ -1,49 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <h1>M3U Tools</h1>
-   <center>   
-<select id="archive-pages" onchange="window.open ( this.value, '_self' );">
-
-  <option value="#">
-  
-    Menu
-    
-    </option>
-
-  <option value="https://m3u-tools.tiiny.site/">
-  
-    Home
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/m3u.html">
-  
-    M3U editer
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/xml.html">
-  
-    XML Editer
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/gz.html">
-  
-    XML.gz Editer
-    
-    </option>
-    
-  <option value="https://github.com/m3u-tools/m3utools">
-  
-    GitHub
-    
-    </option>
-  </select>
-  </center>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U TOOLS</title>
+    <!-- Navigation Bar -->
+  <div class="navbar">
+        <div class="menu">
+           <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+    </div>
   <style>
     body {
         font-family: Arial, sans-serif;
@@ -177,9 +147,161 @@
         p {
             color: #e0e0e0; /* Light text for paragraph */
         }
+  /*choose file button*/
+.input-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.custom-file-input {
+  display: none; /* Hide the default file input */
+}
+
+.custom-file-label {
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: var(--button-bg, #007bff);
+  color: var(--button-color, #fff);
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  display: inline-block; /* Makes it behave like a button */
+  text-align: center;
+}
+
+.custom-file-label:hover {
+  background-color: var(--button-hover-bg, #0056b3);
+}
+    /* Navigation Bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #000; /* Black background */
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar .logo {
+        font-size: 1.5em;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .navbar .menu {
+        display: flex;
+        gap: 10px; /* Reduced gap for smaller buttons */
+    }
+
+    .navbar .menu a {
+        text-decoration: none;
+        color: white; /* Default link color */
+        padding: 8px 12px; /* Smaller padding for compact buttons */
+        border-radius: 20px; /* Smaller border radius */
+        background-color: #1a73e8; /* Cool blue color */
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slight shadow for 3D effect */
+    }
+
+    .navbar .menu a:hover {
+        background-color: #1558b0; /* Darker blue on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+    }
+
+    /* Hamburger Menu (Mobile) */
+    .navbar .hamburger {
+        display: none;
+        font-size: 1.8em;
+        color: white;
+        cursor: pointer;
+    }
+
+    .navbar .menu-mobile {
+        display: none;
+        flex-direction: column;
+        background-color: #000; /* Black background for mobile */
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar .menu-mobile a {
+        padding: 10px 20px;
+        text-align: center;
+        color: white; /* Default link color */
+        background-color: #1a73e8; /* Cool blue color */
+        border-radius: 20px; /* Smaller border radius */
+        margin: 5px; /* Add margin for spacing */
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .navbar .menu-mobile a:hover {
+        background-color: #1558b0; /* Darker blue on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+    }
+
+    .navbar .menu-mobile.open {
+        display: flex;
+    }
+
+    /* Reset link styles for visited links to avoid purple color */
+    .navbar .menu a:visited,
+    .navbar .menu-mobile a:visited {
+        color: white; /* Keep link color white when visited */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .navbar .menu {
+            display:
+        }
+
+        .navbar .hamburger {
+            display: block;
+        }
+    }
+
+    .container {
+        margin-top: 100px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        color: gray;
+        padding: 5px 0;
+    }
+     h2 {
+        text-align: center;
+        color: var(--header-color, #121212);
+        margin-bottom: 20px;
+    }
+h2 {
+            color: #121212; /* Light green for heading */
+        }
+h3 {
+            color: #1a73e8; /* Light green for heading */
+        }
 </style>
 
 <style>
+/*check box and groups to left*/
   .categories {
     display: flex;
     justify-content: center; /* Center the group */
@@ -195,14 +317,16 @@
 
 </head>
 <body>
-
-  <div class="container">
+<h2>test</h2>
+<h2>test</h2>
+<center><h1>M3U TOOLS</h1></center>
     <h1>Filter and Combine M3U Playlist</h1>
-    <div class="input-section">
-      <p>Upload an M3U or M3U8 file to process.</p>
-      <input type="file" id="m3uFileInput" />
-      <button onclick="processInput()">Process</button>
-    </div>
+<div class="input-section">
+  <p>Upload an M3U or M3U8 file to process.</p>
+  <input type="file" id="m3uFileInput" class="custom-file-input" />
+  <label for="m3uFileInput" class="custom-file-label">Choose File</label>
+  <button onclick="processInput()">Process</button>
+</div>
 
     <div id="previewSection" class="preview-section" style="text-align:center">
       <h3>Categories in Uploaded Content:</h3>
@@ -320,19 +444,19 @@ Or looks like group-title="" it will not work</p>
       categoryList.innerHTML = '';
 
       const selectAllDiv = document.createElement('div');
-      selectAllDiv.innerHTML = `
+      selectAllDiv.innerHTML = 
         <input type="checkbox" id="selectAllCategories" /> 
         <label for="selectAllCategories">Select All Categories</label>
-      `;
+      ;
       categoryList.appendChild(selectAllDiv);
 
       categories.forEach(category => {
         const categoryDiv = document.createElement('div');
         categoryDiv.classList.add('category');
-        categoryDiv.innerHTML = `
+        categoryDiv.innerHTML = 
           <input type="checkbox" value="${category}" class="categoryCheckbox" />
           <label>${category}</label>
-        `;
+        ;
         categoryList.appendChild(categoryDiv);
       });
 
@@ -385,11 +509,13 @@ Or looks like group-title="" it will not work</p>
 
     // Prepare the combined content for download
     function prepareDownload() {
-      const blob = new Blob([combinedContent], { type: 'text/plain' });
+      const blob = new Blob([combinedContent], { type: 'text/plain' }
+      
       const url = URL.createObjectURL(blob);
       const downloadLink = document.getElementById('downloadLink');
       downloadLink.href = url;
     }
+
   </script>
 </body>
 </html>

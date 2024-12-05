@@ -3,47 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<center>    <h2>XML Editer</h2></center>
-<center>    
-<select id="archive-pages" onchange="window.open ( this.value, '_self' );">
-
-  <option value="#">
-  
-    Menu
-    
-    </option>
-
-  <option value="https://m3u-tools.tiiny.site/">
-  
-    Home
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/m3u.html">
-  
-    M3U editer
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/xml.html">
-  
-    XML Editer
-    
-    </option>
-    
-  <option value="https://m3u-tools.tiiny.site/gz.html">
-  
-    XML.gz Editer
-    
-    </option>
-    
-  <option value="https://github.com/m3u-tools/m3utools">
-  
-    GitHub
-    
-    </option>
-  </select>
-</center>
+    <title>M3U TOOLS</title>
+    <!-- Navigation Bar -->
+  <div class="navbar">
+        <div class="menu">
+           <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+    </div>
     <style>
         /* Dark Mode Styles */
         body {
@@ -116,9 +86,132 @@
         p {
             color: #e0e0e0; /* Light text for paragraph */
         }
+    /* Navigation Bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #000; /* Black background */
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar .logo {
+        font-size: 1.5em;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .navbar .menu {
+        display: flex;
+        gap: 10px; /* Reduced gap for smaller buttons */
+    }
+
+    .navbar .menu a {
+        text-decoration: none;
+        color: white; /* Default link color */
+        padding: 8px 12px; /* Smaller padding for compact buttons */
+        border-radius: 20px; /* Smaller border radius */
+        background-color: #1a73e8; /* Cool blue color */
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slight shadow for 3D effect */
+    }
+
+    .navbar .menu a:hover {
+        background-color: #1558b0; /* Darker blue on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+    }
+
+    /* Hamburger Menu (Mobile) */
+    .navbar .hamburger {
+        display: none;
+        font-size: 1.8em;
+        color: white;
+        cursor: pointer;
+    }
+
+    .navbar .menu-mobile {
+        display: none;
+        flex-direction: column;
+        background-color: #000; /* Black background for mobile */
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar .menu-mobile a {
+        padding: 10px 20px;
+        text-align: center;
+        color: white; /* Default link color */
+        background-color: #1a73e8; /* Cool blue color */
+        border-radius: 20px; /* Smaller border radius */
+        margin: 5px; /* Add margin for spacing */
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .navbar .menu-mobile a:hover {
+        background-color: #1558b0; /* Darker blue on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+    }
+
+    .navbar .menu-mobile.open {
+        display: flex;
+    }
+
+    /* Reset link styles for visited links to avoid purple color */
+    .navbar .menu a:visited,
+    .navbar .menu-mobile a:visited {
+        color: white; /* Keep link color white when visited */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .navbar .menu {
+            display:
+        }
+
+        .navbar .hamburger {
+            display: block;
+        }
+    }
+
+    .container {
+        margin-top: 100px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        color: gray;
+        padding: 5px 0;
+    }
+h2 {
+            color: #1a73e8; /* Light green for heading */
+        }
+h3 {
+            color: #121212; /* Light green for heading */
+        }
     </style>
 </head>
 <body>
+<h3>test</h3>
+<h3>test</h3>
+<center><h2>M3U TOOLS</h2></center>
 <center>    <h2>EPG URL Merger</h2></center>
  <center>   <p>Enter up to 10 EPG URLs to merge:</p></center>
 
