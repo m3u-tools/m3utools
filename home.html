@@ -4,23 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M3U TOOLS</title>
-    <!-- Navigation Bar -->
-  <div class="navbar">
-        <div class="menu">
-           <a href="https://m3u-tools.tiiny.site/">Home</a>
-            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
-            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
-            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
-            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
-        </div>
-  </div>
     <style>
         body {
             background-color: #121212;
             color: white;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding-top: 60px; /* Adjust for fixed navbar */
         }
 
         h1 {
@@ -33,12 +23,16 @@
         h2 {
             color: #1a73e8;
             font-size: 1.8em;
+            text-align: center;
         }
-
-/* scroll image */
-{
-            margin: 0;
-            padding: 0;
+        h4 {
+            color: #e0e0e0;
+            font-size: 1.8em;
+            text-align: center;
+        }
+        p {
+            text-align: center;
+            margin: 10px 0;
         }
 
         .scroll-container {
@@ -68,177 +62,209 @@
                 width: 100%; /* Fit the width of the screen */
             }
         }
-    /* Navigation Bar */
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #000; /* Black background */
-        padding: 10px 20px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
 
-    .navbar .logo {
-        font-size: 1.5em;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .navbar .menu {
-        display: flex;
-        gap: 10px; /* Reduced gap for smaller buttons */
-    }
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
 
-    .navbar .menu a {
-        text-decoration: none;
-        color: white; /* Default link color */
-        padding: 8px 12px; /* Smaller padding for compact buttons */
-        border-radius: 20px; /* Smaller border radius */
-        background-color: #1a73e8; /* Cool blue color */
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slight shadow for 3D effect */
-    }
+        .navbar .logo {
+            font-size: 1.5em;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .navbar .menu a:hover {
-        background-color: #1558b0; /* Darker blue on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
-    }
-
-    /* Hamburger Menu (Mobile) */
-    .navbar .hamburger {
-        display: none;
-        font-size: 1.8em;
-        color: white;
-        cursor: pointer;
-    }
-
-    .navbar .menu-mobile {
-        display: none;
-        flex-direction: column;
-        background-color: #000; /* Black background for mobile */
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-
-    .navbar .menu-mobile a {
-        padding: 10px 20px;
-        text-align: center;
-        color: white; /* Default link color */
-        background-color: #1a73e8; /* Cool blue color */
-        border-radius: 20px; /* Smaller border radius */
-        margin: 5px; /* Add margin for spacing */
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    }
-
-    .navbar .menu-mobile a:hover {
-        background-color: #1558b0; /* Darker blue on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
-    }
-
-    .navbar .menu-mobile.open {
-        display: flex;
-    }
-
-    /* Reset link styles for visited links to avoid purple color */
-    .navbar .menu a:visited,
-    .navbar .menu-mobile a:visited {
-        color: white; /* Keep link color white when visited */
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
         .navbar .menu {
-            display:
+            display: flex;
+            gap: 15px;
         }
 
+        .navbar .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .navbar .menu a:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Hamburger Menu (Mobile) */
         .navbar .hamburger {
-            display: block;
+            display: none;
+            font-size: 1.8em;
+            color: white;
+            cursor: pointer;
         }
-    }
 
-    .container {
-        margin-top: 100px;
-        padding: 20px;
-        text-align: center;
-    }
-
-    footer {
-        position: fixed;
-        bottom: 10px;
-        width: 100%;
-        text-align: center;
-        font-size: 14px;
-        color: gray;
-        padding: 5px 0;
-    }
-     h2 {
-        text-align: center;
-        color: var(--header-color, #121212);
-        margin-bottom: 20px;
-    }
-h2 {
-            color: #1a73e8; /* Light green for heading */
+        .navbar .menu-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 20px 10px;
         }
-h4 {
-            color: #121212; /* Light green for heading */
+
+        .navbar .menu-mobile.open {
+            display: flex;
+        }
+
+        .navbar .menu-mobile a {
+            text-decoration: none;
+            background-color: #2196F3;
+            color: white;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .menu-mobile a:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar .menu {
+                display: none;
+            }
+
+            .navbar .hamburger {
+                display: block;
+            }
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .scroll-container {
+            background-color: #333;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            margin: 20px auto;
+            width: 90%;
+            border-radius: 8px;
+        }
+
+        .scroll-container img {
+            height: auto;
+            max-width: 100%;
+            margin-right: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            padding: 5px 0;
         }
     </style>
 </head>
 <body>
-<h4>test</h4>
-<h4>test</h4>
-<center><h2>M3U TOOLS</h2></center>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="https://m3u-tools.tiiny.site/" class="logo">M3U TOOLS</a>
+        <div class="menu">
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <div class="menu-mobile" id="menuMobile">
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+    </div>
+
     <!-- Page Content -->
     <div class="container">
-        <p>
-            This site contains FREE tools to manage your M3U and M3U8 files. Merge or shrink playlists easily. We also provide XML and XML.gz tools with no log saving or user tracking.
-        </p>
+        <h4>This site contains FREE tools to manage your M3U and M3U8 files. Merge or shrink playlists easily. We also provide XML and XML.gz tools with no log saving or user tracking.</h4>
 
-        <center><h2>M3U M3U8 Editor</h2>
-        <p>Shrink large playlists or merge multiple files into one.</p></center>
-    <div class="scroll-container">
-        <img src="https://i.ibb.co/hZxK7hH/m3u1.png" alt="M3U1">
-        <img src="https://i.ibb.co/Y2vb0vD/m3u2.png" alt="M3U2">
-        <img src="https://i.ibb.co/2WVDBb3/m3u3.png" alt="M3U3">
-        <!-- Repeat images to create a smooth infinite scroll -->
-        <img src="https://i.ibb.co/hZxK7hH/m3u1.png" alt="M3U1">
-        <img src="https://i.ibb.co/Y2vb0vD/m3u2.png" alt="M3U2">
-        <img src="https://i.ibb.co/2WVDBb3/m3u3.png" alt="M3U3">
+        <h2>M3U M3U8 Editor</h2>
+        <p>Shrink large playlists or merge multiple files into one.</p>
+        <div class="scroll-container">
+            <img src="https://i.ibb.co/hZxK7hH/m3u1.png" alt="M3U1">
+            <img src="https://i.ibb.co/Y2vb0vD/m3u2.png" alt="M3U2">
+            <img src="https://i.ibb.co/2WVDBb3/m3u3.png" alt="M3U3">
+            <img src="https://i.ibb.co/hZxK7hH/m3u1.png" alt="M3U1">
+            <img src="https://i.ibb.co/Y2vb0vD/m3u2.png" alt="M3U2">
+            <img src="https://i.ibb.co/2WVDBb3/m3u3.png" alt="M3U3">
         </div>
-
-       <center> <h2>XML Editor</h2>
-        <p>Merge up to 10 XML URLs into one file.</p></center>
+        <h2>XML Editor</h2>
+        <p>Merge up to 10 XML URLs into one file.</p>
         <div class="scroll-container">
             <img src="https://i.ibb.co/x7PP5V6/xml.png" alt="XML1">
             <img src="https://i.ibb.co/vjdGyv6/xml2.png" alt="XML2">
             <img src="https://i.ibb.co/x7PP5V6/xml.png" alt="XML1">
             <img src="https://i.ibb.co/vjdGyv6/xml2.png" alt="XML2">
-        </div>
-
-       <center> <h2>XML.gz Editor</h2>
-        <p>Combine up to 5 .gz files into one.</p></center>
+            <img src="https://i.ibb.co/x7PP5V6/xml.png" alt="XML1">
+            <img src="https://i.ibb.co/vjdGyv6/xml2.png" alt="XML2">
+        </div>        
+        <h2>XML.gz Editor</h2>
+        <p>Combine up to 5 .gz files into one.</p>
         <div class="scroll-container">
+            <img src="https://i.ibb.co/1fwPKXk/gz1.png" alt="GZ1">
+            <img src="https://i.ibb.co/sjhMSXm/gz2.png" alt="GZ2">
             <img src="https://i.ibb.co/1fwPKXk/gz1.png" alt="GZ1">
             <img src="https://i.ibb.co/sjhMSXm/gz2.png" alt="GZ2">
             <img src="https://i.ibb.co/1fwPKXk/gz1.png" alt="GZ1">
             <img src="https://i.ibb.co/sjhMSXm/gz2.png" alt="GZ2">
         </div>
     </div>
-<center>&copy; 2024 M3U TOOLS. All rights reserved.</center>
 
+    <center>&copy; 2024 M3U TOOLS. All rights reserved.</center>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const menuMobile = document.getElementById("menuMobile");
+
+            hamburger.addEventListener("click", () => {
+                menuMobile.classList.toggle("open");
+            });
+        });
     </script>
 </body>
 </html>

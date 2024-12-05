@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M3U TOOLS</title>
     <!-- Navigation Bar -->
-  <div class="navbar">
+    <div class="navbar" id="navbar">
+        <a href="https://m3u-tools.tiiny.site/" class="logo">M3U TOOLS</a>
         <div class="menu">
-           <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <div class="menu-mobile" id="menuMobile">
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
             <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
             <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
             <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
@@ -83,7 +92,7 @@
         color: var(--info-color, #666);
         text-align: center;
     }
-    .box {
+            .box {
         border: 2px solid #fff; /* Change border color to white */
         padding: 20px;
         margin: 20px auto;
@@ -135,14 +144,14 @@
             --button-bg: #1a73e8;
             --button-color: #fff;
             --button-hover-bg: #1558c7;
-            --download-bg: #34a853;
+            --download-bg: #1a73e8;
             --download-color: #fff;
             --download-hover-bg: #2a7c44;
             --info-color: #b0b0b0;
         }
     }
           h1 {
-            color: #1a73e8; /* Light green for heading */
+            color: #e0e0e0; /* Light green for heading */
         }
         p {
             color: #e0e0e0; /* Light text for paragraph */
@@ -173,130 +182,151 @@
 .custom-file-label:hover {
   background-color: var(--button-hover-bg, #0056b3);
 }
-    /* Navigation Bar */
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #000; /* Black background */
-        padding: 10px 20px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .navbar .logo {
-        font-size: 1.5em;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
 
-    .navbar .menu {
-        display: flex;
-        gap: 10px; /* Reduced gap for smaller buttons */
-    }
+        .navbar .logo {
+            font-size: 1.5em;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .navbar .menu a {
-        text-decoration: none;
-        color: white; /* Default link color */
-        padding: 8px 12px; /* Smaller padding for compact buttons */
-        border-radius: 20px; /* Smaller border radius */
-        background-color: #1a73e8; /* Cool blue color */
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slight shadow for 3D effect */
-    }
-
-    .navbar .menu a:hover {
-        background-color: #1558b0; /* Darker blue on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
-    }
-
-    /* Hamburger Menu (Mobile) */
-    .navbar .hamburger {
-        display: none;
-        font-size: 1.8em;
-        color: white;
-        cursor: pointer;
-    }
-
-    .navbar .menu-mobile {
-        display: none;
-        flex-direction: column;
-        background-color: #000; /* Black background for mobile */
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-
-    .navbar .menu-mobile a {
-        padding: 10px 20px;
-        text-align: center;
-        color: white; /* Default link color */
-        background-color: #1a73e8; /* Cool blue color */
-        border-radius: 20px; /* Smaller border radius */
-        margin: 5px; /* Add margin for spacing */
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    }
-
-    .navbar .menu-mobile a:hover {
-        background-color: #1558b0; /* Darker blue on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
-    }
-
-    .navbar .menu-mobile.open {
-        display: flex;
-    }
-
-    /* Reset link styles for visited links to avoid purple color */
-    .navbar .menu a:visited,
-    .navbar .menu-mobile a:visited {
-        color: white; /* Keep link color white when visited */
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
         .navbar .menu {
-            display:
+            display: flex;
+            gap: 15px;
         }
 
+        .navbar .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .navbar .menu a:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Hamburger Menu (Mobile) */
         .navbar .hamburger {
-            display: block;
+            display: none;
+            font-size: 1.8em;
+            color: white;
+            cursor: pointer;
         }
-    }
 
-    .container {
-        margin-top: 100px;
-        padding: 20px;
-        text-align: center;
-    }
+        .navbar .menu-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 20px 10px;
+        }
 
-    footer {
-        position: fixed;
-        bottom: 10px;
-        width: 100%;
-        text-align: center;
-        font-size: 14px;
-        color: gray;
-        padding: 5px 0;
-    }
+        .navbar .menu-mobile.open {
+            display: flex;
+        }
+
+        .navbar .menu-mobile a {
+            text-decoration: none;
+            background-color: #2196F3;
+            color: white;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .menu-mobile a:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar .menu {
+                display: none;
+            }
+
+            .navbar .hamburger {
+                display: block;
+            }
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .scroll-container {
+            background-color: #333;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            margin: 20px auto;
+            width: 90%;
+            border-radius: 8px;
+        }
+
+        .scroll-container img {
+            height: auto;
+            max-width: 100%;
+            margin-right: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            padding: 5px 0;
+        }
      h2 {
         text-align: center;
         color: var(--header-color, #121212);
         margin-bottom: 20px;
     }
-h2 {
+h4 {
             color: #121212; /* Light green for heading */
         }
 h3 {
-            color: #1a73e8; /* Light green for heading */
+            color: #e0e0e0; /* Light green for heading */
+        }
+h2 {
+            color: #e0e0e0; /* Light green for heading */
         }
 </style>
 
@@ -317,9 +347,8 @@ h3 {
 
 </head>
 <body>
-<h2>test</h2>
-<h2>test</h2>
-<center><h1>M3U TOOLS</h1></center>
+<h4>test</h4>
+<h4>test</h4>
     <h1>Filter and Combine M3U Playlist</h1>
 <div class="input-section">
   <p>Upload an M3U or M3U8 file to process.</p>
@@ -369,153 +398,169 @@ Or looks like group-title="" it will not work</p>
   </div>
 
   <script>
-    let currentContent = '';
-    let combinedContent = '';
-    let isFirstHeader = true; // Track the first #EXTM3U
+        let currentContent = '';
+        let combinedContent = '';
+        let isFirstHeader = true; // Track the first #EXTM3U
 
-    // Process file or URL input
-    function processInput() {
-      const fileInput = document.getElementById('m3uFileInput');
-      const urlInput = document.getElementById('m3uUrlInput');
-      const file = fileInput.files[0];
+        // Process file or URL input
+        function processInput() {
+            const fileInput = document.getElementById('m3uFileInput');
+            const file = fileInput.files[0];
 
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          currentContent = cleanM3UContent(event.target.result);
-          displayCategories(currentContent);
-        };
-        reader.readAsText(file);
-      } else if (url) {
-        fetch(url)
-          .then(response => response.text())
-          .then(text => {
-            currentContent = cleanM3UContent(text);
-            displayCategories(currentContent);
-          })
-          .catch(err => alert("Error fetching URL: " + err));
-      } else {
-        alert("Please upload a file.");
-      }
-    }
-
-    // Clean M3U content
-    function cleanM3UContent(content) {
-      const lines = content.split('\n').map(line => line.trim());
-      const cleanedLines = [];
-      const urlRegex = /^https?:\/\//;
-
-      let lastMetadata = '';
-
-      for (const line of lines) {
-        if (line.startsWith('#EXTM3U')) {
-          if (isFirstHeader) {
-            cleanedLines.push(line); // Add only the first #EXTM3U
-            isFirstHeader = false;
-          }
-        } else if (line.startsWith('#EXTINF:')) {
-          lastMetadata = line; // Store the metadata line
-        } else if (urlRegex.test(line)) {
-          if (lastMetadata) {
-            cleanedLines.push(lastMetadata); // Add metadata + URL pair
-            lastMetadata = ''; // Reset metadata
-          }
-          cleanedLines.push(line);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    currentContent = cleanM3UContent(event.target.result);
+                    displayCategories(currentContent);
+                };
+                reader.readAsText(file);
+            } else {
+                alert("Please upload a file.");
+            }
         }
-      }
 
-      return cleanedLines.join('\n');
-    }
+        // Clean M3U content
+        function cleanM3UContent(content) {
+            const lines = content.split('\n').map(line => line.trim());
+            const cleanedLines = [];
+            const urlRegex = /^https?:\/\//;
 
-    // Display categories for selection
-    function displayCategories(content) {
-      const lines = content.split('\n');
-      const categories = new Set();
+            let lastMetadata = '';
 
-      // Extract categories
-      lines.forEach(line => {
-        const match = line.match(/group-title="([^"]+)"/);
-        if (match) {
-          categories.add(match[1]);
+            for (const line of lines) {
+                if (line.startsWith('#EXTM3U')) {
+                    if (isFirstHeader) {
+                        cleanedLines.push(line); // Add only the first #EXTM3U
+                        isFirstHeader = false;
+                    }
+                } else if (line.startsWith('#EXTINF:')) {
+                    lastMetadata = line; // Store the metadata line
+                } else if (urlRegex.test(line)) {
+                    if (lastMetadata) {
+                        cleanedLines.push(lastMetadata); // Add metadata + URL pair
+                        lastMetadata = ''; // Reset metadata
+                    }
+                    cleanedLines.push(line);
+                }
+            }
+
+            return cleanedLines.join('\n');
         }
-      });
 
-      const categoryList = document.getElementById('categoryList');
-      categoryList.innerHTML = '';
+        // Display categories for selection
+        function displayCategories(content) {
+            const lines = content.split('\n');
+            const categories = new Set();
 
-      const selectAllDiv = document.createElement('div');
-      selectAllDiv.innerHTML = 
-        <input type="checkbox" id="selectAllCategories" /> 
-        <label for="selectAllCategories">Select All Categories</label>
-      ;
-      categoryList.appendChild(selectAllDiv);
+            // Extract categories
+            lines.forEach(line => {
+                const match = line.match(/group-title="([^"]+)"/);
+                if (match) {
+                    categories.add(match[1]);
+                }
+            });
 
-      categories.forEach(category => {
-        const categoryDiv = document.createElement('div');
-        categoryDiv.classList.add('category');
-        categoryDiv.innerHTML = 
-          <input type="checkbox" value="${category}" class="categoryCheckbox" />
-          <label>${category}</label>
-        ;
-        categoryList.appendChild(categoryDiv);
-      });
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = '';
 
-      // Add event listener for "Select All" checkbox
-      document.getElementById('selectAllCategories').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('.categoryCheckbox');
-        checkboxes.forEach(checkbox => {
-          checkbox.checked = this.checked;
+            const selectAllDiv = document.createElement('div');
+            selectAllDiv.innerHTML = `
+                <input type="checkbox" id="selectAllCategories" />
+                <label for="selectAllCategories">Select All Categories</label>
+            `;
+            categoryList.appendChild(selectAllDiv);
+
+            categories.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.classList.add('category');
+                categoryDiv.innerHTML = `
+                    <input type="checkbox" value="${category}" class="categoryCheckbox" />
+                    <label>${category}</label>
+                `;
+                categoryList.appendChild(categoryDiv);
+            });
+
+            // Add event listener for "Select All" checkbox
+            document.getElementById('selectAllCategories').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.categoryCheckbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+
+            // Show the preview section
+            document.getElementById('previewSection').style.display = 'block';
+        }
+
+        // Add selected categories to the combined list
+        function addToCombinedContent() {
+            const selectedCategories = Array.from(
+                document.querySelectorAll('#categoryList input[type="checkbox"]:checked')
+            ).map(checkbox => checkbox.value);
+
+            if (selectedCategories.length === 0) {
+                alert("Please select at least one category.");
+                return;
+            }
+
+            const lines = currentContent.split('\n');
+            const filteredLines = [];
+            let includeNextLine = false;
+
+            lines.forEach(line => {
+                const match = line.match(/group-title="([^"]+)"/);
+                if (match) {
+                    includeNextLine = selectedCategories.includes(match[1]);
+                }
+                if (includeNextLine || line.startsWith('#EXTM3U')) {
+                    filteredLines.push(line);
+                }
+            });
+
+            // Append to combined content
+            if (combinedContent) {
+                combinedContent += '\n'; // Ensure a single newline between files
+            }
+            combinedContent += filteredLines.join('\n');
+
+            alert("Selected categories added to the combined playlist.");
+            document.getElementById('downloadLinkContainer').style.display = 'block';
+        }
+
+        // Prepare the combined content for download
+        function prepareDownload() {
+            const blob = new Blob([combinedContent], { type: 'text/plain' });
+
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = url;
+        }
+
+        // Navbar JavaScript
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const navbar = document.getElementById("navbar");
+            const hamburger = document.getElementById("hamburger");
+            const menuMobile = document.getElementById("menuMobile");
+            let lastScrollTop = 0;
+
+            // Toggle mobile menu
+            hamburger.addEventListener("click", () => {
+                menuMobile.classList.toggle("open");
+            });
+
+            // Hide/show navbar on scroll
+            window.addEventListener("scroll", () => {
+                const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (currentScrollTop > lastScrollTop) {
+                    navbar.classList.add("hidden");
+                } else {
+                    navbar.classList.remove("hidden");
+                }
+
+                lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+            });
         });
-      });
-
-      // Show the preview section
-      document.getElementById('previewSection').style.display = 'block';
-    }
-
-    // Add selected categories to the combined list
-    function addToCombinedContent() {
-      const selectedCategories = Array.from(
-        document.querySelectorAll('#categoryList input[type="checkbox"]:checked')
-      ).map(checkbox => checkbox.value);
-
-      if (selectedCategories.length === 0) {
-        alert("Please select at least one category.");
-        return;
-      }
-
-      const lines = currentContent.split('\n');
-      const filteredLines = [];
-      let includeNextLine = false;
-
-      lines.forEach(line => {
-        const match = line.match(/group-title="([^"]+)"/);
-        if (match) {
-          includeNextLine = selectedCategories.includes(match[1]);
-        }
-        if (includeNextLine || line.startsWith('#EXTM3U')) {
-          filteredLines.push(line);
-        }
-      });
-
-      // Append to combined content
-      if (combinedContent) {
-        combinedContent += '\n'; // Ensure a single newline between files
-      }
-      combinedContent += filteredLines.join('\n');
-
-      alert("Selected categories added to the combined playlist.");
-      document.getElementById('downloadLinkContainer').style.display = 'block';
-    }
-
-    // Prepare the combined content for download
-    function prepareDownload() {
-      const blob = new Blob([combinedContent], { type: 'text/plain' }
-      
-      const url = URL.createObjectURL(blob);
-      const downloadLink = document.getElementById('downloadLink');
-      downloadLink.href = url;
-    }
-
   </script>
 </body>
 </html>

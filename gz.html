@@ -4,16 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M3U TOOLS</title>
-    <!-- Navigation Bar -->
-  <div class="navbar">
-        <div class="menu">
-           <a href="https://m3u-tools.tiiny.site/">Home</a>
-            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
-            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
-            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
-            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
-        </div>
-    </div>
+    <center><h1>M3U TOOLS</h1></center>
     <style>
         /* Dark Mode Styles */
         body {
@@ -36,7 +27,7 @@
             cursor: pointer;
         }
         button:hover {
-            background-color: #004d40; /* Darker green on hover */
+            background-color: #1a73e8; /* Darker green on hover */
         }
         #result {
             margin-top: 20px;
@@ -47,7 +38,7 @@
         a {
             display: block;
             margin-top: 10px;
-            color: #00bfae; /* Light link color */
+            color: #1a73e8; /* Light link color */
             text-decoration: underline;
         }
             .box {
@@ -82,157 +73,185 @@
             color: #e0e0e0; /* Light text for paragraph */
         }
            h2 {
-            color: #1a73e8; /* Light green for heading */
+            color: #e0e0e0; /* Light green for heading */
         }
         p {
             color: #e0e0e0; /* Light text for paragraph */
         }
-    /* Navigation Bar */
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #000; /* Black background */
-        padding: 10px 20px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .navbar .logo {
-        font-size: 1.5em;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
 
-    .navbar .menu {
-        display: flex;
-        gap: 10px; /* Reduced gap for smaller buttons */
-    }
+        .navbar .logo {
+            font-size: 1.5em;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .navbar .menu a {
-        text-decoration: none;
-        color: white; /* Default link color */
-        padding: 8px 12px; /* Smaller padding for compact buttons */
-        border-radius: 20px; /* Smaller border radius */
-        background-color: #1a73e8; /* Cool blue color */
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slight shadow for 3D effect */
-    }
-
-    .navbar .menu a:hover {
-        background-color: #1558b0; /* Darker blue on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
-    }
-
-    /* Hamburger Menu (Mobile) */
-    .navbar .hamburger {
-        display: none;
-        font-size: 1.8em;
-        color: white;
-        cursor: pointer;
-    }
-
-    .navbar .menu-mobile {
-        display: none;
-        flex-direction: column;
-        background-color: #000; /* Black background for mobile */
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-
-    .navbar .menu-mobile a {
-        padding: 10px 20px;
-        text-align: center;
-        color: white; /* Default link color */
-        background-color: #1a73e8; /* Cool blue color */
-        border-radius: 20px; /* Smaller border radius */
-        margin: 5px; /* Add margin for spacing */
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    }
-
-    .navbar .menu-mobile a:hover {
-        background-color: #1558b0; /* Darker blue on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
-    }
-
-    .navbar .menu-mobile.open {
-        display: flex;
-    }
-
-    /* Reset link styles for visited links to avoid purple color */
-    .navbar .menu a:visited,
-    .navbar .menu-mobile a:visited {
-        color: white; /* Keep link color white when visited */
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
         .navbar .menu {
-            display:
+            display: flex;
+            gap: 15px;
         }
 
+        .navbar .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .navbar .menu a:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Hamburger Menu (Mobile) */
         .navbar .hamburger {
-            display: block;
+            display: none;
+            font-size: 1.8em;
+            color: white;
+            cursor: pointer;
         }
-    }
 
-    .container {
-        margin-top: 100px;
-        padding: 20px;
-        text-align: center;
-    }
-
-    footer {
-        position: fixed;
-        bottom: 10px;
-        width: 100%;
-        text-align: center;
-        font-size: 14px;
-        color: gray;
-        padding: 5px 0;
-    }
-h2 {
-            color: #1a73e8; /* Light green for heading */
+        .navbar .menu-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 20px 10px;
         }
-h3 {
-            color: #121212; /* Light green for heading */
+
+        .navbar .menu-mobile.open {
+            display: flex;
+        }
+
+        .navbar .menu-mobile a {
+            text-decoration: none;
+            background-color: #2196F3;
+            color: white;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .menu-mobile a:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar .menu {
+                display: none;
+            }
+
+            .navbar .hamburger {
+                display: block;
+            }
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .scroll-container {
+            background-color: #333;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            margin: 20px auto;
+            width: 90%;
+            border-radius: 8px;
+        }
+
+        .scroll-container img {
+            height: auto;
+            max-width: 100%;
+            margin-right: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            padding: 5px 0;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script> <!-- For GZIP decompression -->
 </head>
 <body>
-<h3>test</h3>
-<h3>test</h3>
-<center>    <h2>M3U TOOLS</h2></center>
-<center>    <h2>EPG .gz Only Merger</h2></center>
-<center>    <p>Upload up to 5 files (Only .gz) to merge:</p></center>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="https://m3u-tools.tiiny.site/" class="logo">M3U TOOLS</a>
+        <div class="menu">
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <div class="menu-mobile" id="menuMobile">
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+    </div>
 
-    <!-- File Inputs -->
+    <!-- Page Content -->
+    <h2>EPG .gz Only Merger</h2>
+    <p>Upload up to 5 files (Only .gz) to merge:</p>
     <input type="file" id="file1" accept=".gz">
     <input type="file" id="file2" accept=".gz">
     <input type="file" id="file3" accept=".gz">
     <input type="file" id="file4" accept=".gz">
     <input type="file" id="file5" accept=".gz">
-
     <button onclick="mergeEPGs()">Merge and Download</button>
 
     <div id="result"></div>
 
      <div class="box"".">
     <center>
-  	<h2>How to use</h2>
-  	<p>Enter files 5 at a time max</p>
-    <p>Hit merge and download</p>
+  	<h2>How to use.</h2>
+  	<p>Enter files 5 at a time max.</p>
+    <p>Hit merge and download.</p>
+    <p>Hit Download merge EPG</p>
     </center>
     </div>
     <div id="result"><div style="text-align:center"></div>
@@ -248,8 +267,19 @@ h3 {
 
     <div align='center'><a href='https://www.free-website-hit-counter.com'><img src='https://www.free-website-hit-counter.com/zc.php?d=9&id=2064&s=5' border='0' alt='Free Website Hit Counter'></a><br /><small><a href='https://www.free-website-hit-counter.com' title="Free Website Hit Counter">Free website hit counter</a></small></div> 
     </center>
-    
+
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const navbar = document.getElementById("navbar");
+            const hamburger = document.getElementById("hamburger");
+            const menuMobile = document.getElementById("menuMobile");
+
+            // Hamburger toggle
+            hamburger.addEventListener("click", () => {
+                menuMobile.classList.toggle("open");
+            });
+        });
+
         async function processFile(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -257,7 +287,6 @@ h3 {
                     try {
                         let content = reader.result;
                         if (file.name.endsWith(".gz")) {
-                            // Decompress .gz file using pako
                             content = new TextDecoder().decode(pako.inflate(content));
                         }
                         resolve(content);
@@ -271,15 +300,11 @@ h3 {
         }
 
         async function mergeEPGs() {
-            const files = [
-                document.getElementById("file1").files[0],
-                document.getElementById("file2").files[0],
-                document.getElementById("file3").files[0],
-                document.getElementById("file4").files[0],
-                document.getElementById("file5").files[0]
-            ].filter(file => file);
+            const files = Array.from({ length: 5 }, (_, i) =>
+                document.getElementById(`file${i + 1}`).files[0]
+            ).filter(Boolean);
 
-            if (files.length === 0) {
+            if (!files.length) {
                 alert("Please upload at least one file.");
                 return;
             }
@@ -289,41 +314,30 @@ h3 {
             const mergedDoc = parser.parseFromString("<tv></tv>", "application/xml");
 
             try {
-                // Process each file
                 for (const file of files) {
                     const xmlContent = await processFile(file);
-
-                    // Parse the XML content
                     const xmlDoc = parser.parseFromString(xmlContent, "application/xml");
 
-                    // Check for parsing errors
-                    const parserError = xmlDoc.querySelector("parsererror");
-                    if (parserError) {
-                        throw new Error(`Error in XML file ${file.name}: ${parserError.textContent}`);
+                    if (xmlDoc.querySelector("parsererror")) {
+                        throw new Error(`Invalid XML in file ${file.name}`);
                     }
 
-                    // Append each child node from the fetched XML into the merged document
-                    Array.from(xmlDoc.documentElement.children).forEach(child => {
-                        mergedDoc.documentElement.appendChild(mergedDoc.importNode(child, true));
-                    });
+                    Array.from(xmlDoc.documentElement.children).forEach((child) =>
+                        mergedDoc.documentElement.appendChild(mergedDoc.importNode(child, true))
+                    );
                 }
 
-                // Serialize merged XML
                 const mergedXML = serializer.serializeToString(mergedDoc);
                 const blob = new Blob([mergedXML], { type: "application/xml" });
-                const downloadUrl = URL.createObjectURL(blob);
-
-                // Create a download link
-                const downloadLink = document.createElement("a");
-                downloadLink.href = downloadUrl;
-                downloadLink.download = "merged_epg.xml";
-                downloadLink.textContent = "Click here to download your merged EPG file";
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "merged_epg.xml";
+                link.textContent = "Download Merged EPG";
                 document.getElementById("result").innerHTML = "";
-                document.getElementById("result").appendChild(downloadLink);
-
+                document.getElementById("result").appendChild(link);
             } catch (error) {
                 console.error(error);
-                document.getElementById("result").textContent = "Error: " + error.message;
+                document.getElementById("result").textContent = `Error: ${error.message}`;
             }
         }
     </script>
