@@ -104,11 +104,11 @@
     /* Light theme */
     @media (prefers-color-scheme: light) {
         :root {
-            --background-color: #f4f4f9;
-            --text-color: #333;
+            --background-color: #121212;
+            --text-color: #e0e0e0;
             --header-color: #444;
             --container-bg: #fff;
-            --button-bg: #007bff;
+            --button-bg: #1a73e8;
             --button-color: #fff;
             --button-hover-bg: #0056b3;
             --download-bg: #28a745;
@@ -351,9 +351,12 @@ h2 {
 <h4>test</h4>
     <h1>Filter and Combine M3U Playlist</h1>
 <div class="input-section">
-  <p>Upload an M3U or M3U8 file to process.</p>
+  <p><b>Enter a url or upload a M3U/M3U8 file.</b></p>
   <input type="file" id="m3uFileInput" class="custom-file-input" />
+      <input type="text" id="m3uUrlInput" placeholder="Enter M3U URL" />
+<b><p>or</p></b>
   <label for="m3uFileInput" class="custom-file-label">Choose File</label>
+<b><p>Then</p></b>
   <button onclick="processInput()">Process</button>
 </div>
 
@@ -369,8 +372,8 @@ h2 {
     </div>
   	<div class="box"".">
   	<center>
-  	<h2>How to use.</h2>
-  	<p>Select your file.</p>
+    <h2>How to use.</h2>
+  	<p>Enter url or select your file.</p>
     <p>Hit process.</p>
     <p>Select what you want hit add.</p>
     <p>Repeat process til you got all m3u/m3u8 you want add.</p>
@@ -392,7 +395,7 @@ Or looks like group-title="" it will not work</p>
         <p>GitHub repo<span class="bubble-text"><a href="https://github.com/lejuans01/Filter-and-Combine-M3U-Playlist?tab=readme-ov-file">GitHub Repo</a></span>
 	<p>"Created by: LeJuan ATP"</p>
 	
-<div align='center'><a href='https://www.free-website-hit-counter.com'><img src='https://www.free-website-hit-counter.com/zc.php?d=9&id=2065&s=5' border='0' alt='Free Website Hit Counter'></a><br /><small><a href='https://www.free-website-hit-counter.com' title="Free Website Hit Counter">Free website hit counter</a></small></div>
+<div align='center'><a href='https://www.free-website-hit-counter.com'><img src='https://www.free-website-hit-counter.com/zc.php?d=9&id=2065&s=5' border='0' alt='Free Website Hit Counter'></a><br /><small><a href='https://www.free-website-hit-counter.com' title="Free Website Hit Counter"></a></small></div>
     </div>
 
   </div>
@@ -403,21 +406,34 @@ Or looks like group-title="" it will not work</p>
         let isFirstHeader = true; // Track the first #EXTM3U
 
         // Process file or URL input
-        function processInput() {
-            const fileInput = document.getElementById('m3uFileInput');
-            const file = fileInput.files[0];
+    function processInput() {
+      const fileInput = document.getElementById('m3uFileInput');
+      const urlInput = document.getElementById('m3uUrlInput');
+      const file = fileInput.files[0];
+      const url = urlInput.value.trim();
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    currentContent = cleanM3UContent(event.target.result);
-                    displayCategories(currentContent);
-                };
-                reader.readAsText(file);
-            } else {
-                alert("Please upload a file.");
-            }
-        }
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          currentContent = cleanM3UContent(event.target.result);
+          displayCategories(currentContent);
+        };
+        reader.readAsText(file);
+      } else if (url) {
+fetch('https://moccasin-talia-31.tiiny.io/?url=' + encodeURIComponent(url))
+          .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch the URL.');
+            return response.text();
+          })
+          .then(text => {
+            currentContent = cleanM3UContent(text);
+            displayCategories(currentContent);
+          })
+          .catch(err => alert("Error fetching URL: " + err.message));
+      } else {
+        alert("Please upload a file or enter a URL.");
+      }
+    }
 
         // Clean M3U content
         function cleanM3UContent(content) {
