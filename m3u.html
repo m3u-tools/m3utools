@@ -14,6 +14,7 @@
             <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
             <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
             <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+            <a href="https://m3u-tools.chatango.com/">Chat</a>
         </div>
         <div class="hamburger" id="hamburger">&#9776;</div>
         <div class="menu-mobile" id="menuMobile">
@@ -23,6 +24,7 @@
             <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
             <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
             <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+            <a href="https://m3u-tools.chatango.com/">Chat</a>
         </div>
     </div>
   <style>
@@ -184,7 +186,67 @@
 .custom-file-label:hover {
   background-color: var(--button-hover-bg, #0056b3);
 }
-        /* Navigation Bar */
+{
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 60px; /* Adjust for fixed navbar */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 30px 0;
+            color: #2196F3;
+            text-align: center;
+        }
+
+        h2 {
+            color: #1a73e8;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        h4 {
+            color: #e0e0e0;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            height: auto;
+            background-color: #000; /* Optional background color for better visibility */
+        }
+
+        .scroll-container img {
+            height: 100vh; /* Ensures full height of the viewport */
+            width: auto; /* Keeps the image's aspect ratio */
+            flex-shrink: 0;
+            animation: scroll 15s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200%); }
+        }
+
+        @media (max-width: 768px) {
+            .scroll-container img {
+                height: auto; /* Adjust height for smaller screens */
+                max-height: 60vh; /* Limit height on mobile */
+                width: 100%; /* Fit the width of the screen */
+            }
+        }
+
+/* Navigation Bar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -200,89 +262,103 @@
             transition: transform 0.3s ease-in-out;
         }
 
-        .navbar.hidden {
-            transform: translateY(-100%);
-        }
+.navbar .logo {
+    font-size: 1.8em;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
 
-        .navbar .logo {
-            font-size: 1.5em;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
+.navbar .logo:hover {
+    color: #1a73e8;
+}
 
-        .navbar .menu {
-            display: flex;
-            gap: 15px;
-        }
+.navbar .menu a {
+    font-size: 1em;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 4px;
+}
 
-        .navbar .menu a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+.navbar .menu a:hover {
+    background-color: #333;
+    color: #1a73e8;
+    transform: translateY(-2px);
+}
 
-        .navbar .menu a:hover {
-            background-color: #333;
-            transform: translateY(-2px);
-        }
+.hamburger {
+    display: none;
+    font-size: 1.8em;
+    color: white;
+    cursor: pointer;
+}
 
-        /* Hamburger Menu (Mobile) */
-        .navbar .hamburger {
-            display: none;
-            font-size: 1.8em;
-            color: white;
-            cursor: pointer;
-        }
+/* Hamburger Menu (Mobile) */
+.navbar .menu-mobile {
+    display: none;
+    flex-direction: column;
+    background-color: #000;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    padding: 20px 10px;
+    transition: all 0.3s ease-in-out;
+}
 
-        .navbar .menu-mobile {
-            display: none;
-            flex-direction: column;
-            background-color: #000;
-            position: absolute;
-            top: 60px;
-            left: 0;
-            right: 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            padding: 20px 10px;
-        }
+.navbar .menu-mobile.open {
+    display: flex;
+}
 
-        .navbar .menu-mobile.open {
-            display: flex;
-        }
+.navbar .menu-mobile a {
+    text-decoration: none;
+    background-color: #000; /* Black background */
+    color: white;
+    padding: 15px 20px;
+    margin: 5px 0;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2em;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
 
-        .navbar .menu-mobile a {
-            text-decoration: none;
-            background-color: #2196F3;
-            color: white;
-            padding: 15px 20px;
-            margin: 5px 0;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.2em;
-            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
+.navbar .menu-mobile a:hover {
+    background-color: #1976D2; /* Optionally, add a hover color */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+}
 
-        .navbar .menu-mobile a:hover {
-            background-color: #1976D2;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
-        }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar .menu {
-                display: none;
-            }
+.menu-mobile.open {
+    display: flex;
+    animation: slideDown 0.3s ease-in-out;
+}
 
-            .navbar .hamburger {
-                display: block;
-            }
-        }
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
         .container {
             margin-top: 120px;
             padding: 20px;
