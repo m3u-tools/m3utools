@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="https://m3u-tools.tiiny.site/" class="logo">M3U TOOLS</a>
+        <div class="menu">
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3uinfo.html">M3U Info Checker</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://m3u-tools.tiiny.site/aplayer.html">Web Player</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+            <a href="https://m3u-tools.chatango.com/">Chat</a>            
+        </div>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <div class="menu-mobile" id="menuMobile">
+            <a href="https://m3u-tools.tiiny.site/">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3uinfo.html">M3U Info Checker</a>
+            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
+            <a href="https://m3u-tools.tiiny.site/aplayer.html">Web Player</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+            <a href="https://m3u-tools.chatango.com/">Chat</a>
+        </div>
+    </div>
+    <title>Advanced Web IPTV Player</title>
+<style>
+    body {
+        background: #000000;
+        color: #FFFFFF;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    header {
+        background: #000000;
+        color: #FFFFFF;
+        text-align: center;
+        padding: 10px;
+    }
+    .controls {
+        padding: 10px;
+        text-align: center;
+        color: #FFFFFF;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 120px);
+        color: #FFFFFF;
+    }
+    .playlist {
+        width: 100%;
+        background: #000000;
+        color: #FFFFFF;
+        overflow-y: auto;
+        border-bottom: 1px solid #ddd;
+        transition: height 0.3s ease;
+    }
+    .playlist ul {
+        list-style: none;
+        color: #FFFFFF;
+        padding: 0;
+        margin: 0;
+    }
+    .playlist li {
+        padding: 10px;
+        color: #FFFFFF;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+    .playlist li:hover {
+        background: #555555;
+    }
+    .category {
+        background: #007bff;
+        color: #FFFFFF;
+        padding: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .player {
+        width: 100%;
+        background: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #FFFFFF;
+    }
+    .search-container {
+        margin-bottom: 10px;
+        padding: 5px;
+    }
+    .search-input {
+        padding: 5px;
+        width: calc(100% - 10px);
+        margin-right: 5px;
+        background: #333333;
+        color: #FFFFFF;
+        border: 1px solid #666666;
+    }
+    .search-button {
+        display: block;
+        margin: 10px auto;
+        padding: 5px 10px;
+        background: #007bff;
+        color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+    }
+    .toggle-button {
+        display: block;
+        margin: 10px auto;
+        padding: 5px 10px;
+        background: #007bff;
+        color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+    }
+    @media (min-width: 768px) {
+        .container {
+            flex-direction: row;
+            height: calc(100vh - 120px);
+        }
+        .playlist {
+            width: 30%;
+            border-right: 1px solid #ddd;
+        }
+        .player {
+            width: 70%;
+        }
+    }
+/* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
+
+.navbar .logo {
+    font-size: .75em;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.navbar .logo:hover {
+    color: #1a73e8;
+}
+
+.navbar .menu a {
+    font-size: 1em;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 4px;
+}
+
+.navbar .menu a:hover {
+    background-color: #333;
+    color: #1a73e8;
+    transform: translateY(-2px);
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.8em;
+    color: white;
+    cursor: pointer;
+}
+
+/* Hamburger Menu (Mobile) */
+.navbar .menu-mobile {
+    display: none;
+    flex-direction: column;
+    background-color: #000;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    padding: 20px 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar .menu-mobile.open {
+    display: flex;
+}
+
+.navbar .menu-mobile a {
+    text-decoration: none;
+    background-color: #000; /* Black background */
+    color: white;
+    padding: 15px 20px;
+    margin: 5px 0;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2em;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.navbar .menu-mobile a:hover {
+    background-color: #1976D2; /* Optionally, add a hover color */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+}
+
+
+.menu-mobile.open {
+    display: flex;
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .scroll-container {
+            background-color: #333;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            margin: 20px auto;
+            width: 90%;
+            border-radius: 8px;
+        }
+
+        .scroll-container img {
+            height: auto;
+            max-width: 100%;
+            margin-right: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            padding: 5px 0;
+        }    
+           h3 {
+            color: #000000; /* Light green for heading */
+        }   
+</style>
+
+</head>
+<body>
+<h3>test</h3>
+    <header>
+        <h1>Advanced Web IPTV Player <b>"TESTING STAGE"</b></h1>
+    </header>
+    <div class="controls">
+        <input type="file" id="fileInput" />
+        <input type="url" id="urlInput" placeholder="Enter M3U URL (e.g., http://url/get.php?username=user&password=pass)" />
+        <button onclick="loadPlaylist()">Load Playlist</button>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search channels..." />
+            <button onclick="searchChannels()" class="search-button">Search</button>
+        </div>
+        <button class="toggle-button" onclick="togglePlaylistVisibility()">Toggle Channels</button>
+    </div>
+    <div class="container">
+        <div class="playlist" id="playlist">
+            <ul id="channelList"></ul>
+        </div>
+        <div class="player" id="player">
+            <video id="videoPlayer" controls>
+                <source id="source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    <center>&copy; 2024 M3U TOOLS. All rights reserved.</center>
+    <!-- Include HLS.js for M3U8 support -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        const channelList = document.getElementById('channelList');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const source = document.getElementById('source');
+        const searchInput = document.getElementById('searchInput');
+        const playlist = document.getElementById('playlist');
+
+        // Parse M3U content
+        function parseM3U(content) {
+            const lines = content.split('\n');
+            const categories = {};
+            let currentChannel = {};
+
+            lines.forEach(line => {
+                if (line.startsWith('#EXTINF:')) {
+                    const match = line.match(/group-title="(.*?)"/);
+                    const category = match ? match[1] : 'Uncategorized';
+                    const name = line.split(',')[1];
+
+                    currentChannel = { name: name, category: category };
+                } else if (line.startsWith('http')) {
+                    currentChannel.url = line.trim();
+
+                    // Add to categories
+                    if (!categories[currentChannel.category]) {
+                        categories[currentChannel.category] = [];
+                    }
+                    categories[currentChannel.category].push(currentChannel);
+                }
+            });
+            return categories;
+        }
+
+        // Load M3U from URL or file
+        async function loadPlaylist() {
+            const fileInput = document.getElementById('fileInput').files[0];
+            const urlInput = document.getElementById('urlInput').value.trim();
+
+            let content = '';
+
+            if (fileInput) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    content = event.target.result;
+                    const categories = parseM3U(content);
+                    displayChannels(categories);
+                };
+                reader.readAsText(fileInput);
+            } else if (urlInput) {
+                try {
+                    const response = await fetch(urlInput, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'text/plain',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch M3U playlist. HTTP Status: ${response.status}`);
+                    }
+
+                    content = await response.text();
+
+                    if (!content) {
+                        throw new Error('The fetched playlist is empty.');
+                    }
+
+                    downloadPlaylist(urlInput, content); // Trigger download
+                    const categories = parseM3U(content);
+                    displayChannels(categories);
+                } catch (error) {
+                    console.error('Error fetching the M3U playlist:', error);
+                    alert(`Error: ${error.message}`);
+                }
+            } else {
+                alert('Please provide an M3U file or URL.');
+            }
+        }
+
+        // Trigger download of the playlist
+        function downloadPlaylist(url, content) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = url.split('/').pop() || 'playlist.m3u';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Display channels sorted by category
+        function displayChannels(categories) {
+            channelList.innerHTML = '';
+            Object.keys(categories).forEach(category => {
+                const categoryHeader = document.createElement('li');
+                categoryHeader.textContent = category;
+                categoryHeader.className = 'category';
+                categoryHeader.onclick = () => toggleCategory(category);
+                channelList.appendChild(categoryHeader);
+
+                const categoryChannels = categories[category];
+                const categoryUl = document.createElement('ul');
+                categoryChannels.forEach(channel => {
+                    const li = document.createElement('li');
+                    li.textContent = channel.name || 'Unnamed Channel';
+                    li.onclick = () => playChannel(channel.url);
+                    categoryUl.appendChild(li);
+                });
+                channelList.appendChild(categoryUl);
+            });
+        }
+
+        // Toggle category visibility
+        function toggleCategory(category) {
+            const categoryItems = Array.from(document.getElementsByClassName(category));
+            categoryItems.forEach(item => {
+                item.style.display = item.style.display === 'none' ? '' : 'none';
+            });
+        }
+
+        // Play selected channel
+        function playChannel(url) {
+            source.src = url;
+            videoPlayer.load();
+
+            if (Hls.isSupported() && url.endsWith('.m3u8')) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(videoPlayer);
+
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    console.error('HLS Error:', data);
+                    handleHlsError(data);
+                });
+
+                hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+                    videoPlayer.play();
+                });
+            } else if (isSupportedFormat(url)) {
+                videoPlayer.src = url;
+                videoPlayer.play();
+            } else {
+                console.error('Unsupported video format:', url);
+                videoPlayer.src = source.src; // Fallback to direct video player source
+                videoPlayer.play();
+            }
+        }
+
+        // Handle HLS errors gracefully
+        function handleHlsError(data) {
+            let errorMessage;
+
+            switch (data.details) {
+                case Hls.ErrorDetails.MANIFEST_PARSING_ERROR:
+                    errorMessage = 'There was an error parsing the manifest.';
+                    break;
+                case Hls.ErrorDetails.MANIFEST_LOAD_ERROR:
+                    errorMessage = 'Failed to load the manifest.';
+                    break;
+                case Hls.ErrorDetails.LEVEL_LOAD_ERROR:
+                    errorMessage = 'Failed to load level.';
+                    break;
+                case Hls.ErrorDetails.NETWORK_ERROR:
+                    errorMessage = 'Network error occurred.';
+                    break;
+                case Hls.ErrorDetails.MEDIA_ATTACHED_ERROR:
+                    errorMessage = 'Failed to attach media.';
+                    break;
+                default:
+                    errorMessage = 'An unknown error occurred.';
+                    break;
+            }
+
+            console.error('HLS Playback Error:', errorMessage);
+            videoPlayer.src = source.src; // Fallback to direct video player source
+            videoPlayer.play();
+        }
+
+        // Check for supported video formats
+        function isSupportedFormat(url) {
+            const supportedFormats = ['.mp4', '.mkv', '.webm', '.avi', '.mov', '.flv', '.wmv', '.mpeg', '.mpg'];
+            return supportedFormats.some(format => url.endsWith(format));
+        }
+
+        // Search channels
+        function searchChannels() {
+            const searchText = searchInput.value.toLowerCase();
+            const allChannels = Array.from(channelList.getElementsByTagName('li'));
+
+            allChannels.forEach(channel => {
+                if (channel.textContent.toLowerCase().includes(searchText)) {
+                    channel.style.display = '';
+                } else {
+                    channel.style.display = 'none';
+                }
+            });
+        }
+
+        // Error handling for video loading
+        videoPlayer.addEventListener('error', () => {
+            console.error('Error loading video. Falling back to direct playback.');
+            videoPlayer.src = source.src; // Fallback to direct video player source
+            videoPlayer.play();
+        });
+
+        // Toggle playlist visibility
+        function togglePlaylistVisibility() {
+            const playlistHeight = playlist.style.height === '0px' ? 'auto' : '0px';
+            playlist.style.height = playlistHeight;
+        }
+
+        // Toggle category visibility
+        function toggleCategory(category) {
+            const categoryItems = Array.from(document.querySelectorAll(`.${category} ul`));
+            categoryItems.forEach(item => {
+                item.style.display = item.style.display === 'none' ? '' : 'none';
+            });
+        }
+document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.getElementById("hamburger");
+    const menuMobile = document.getElementById("menuMobile");
+
+    // Toggle menu visibility on hamburger click
+    hamburger.addEventListener("click", () => {
+        menuMobile.classList.toggle("open");
+    });
+
+    // Close menu if clicked outside
+    document.addEventListener("click", (e) => {
+        if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
+            menuMobile.classList.remove("open");
+        }
+    });
+});
+
+    </script>
+</body>
+</html>
