@@ -5,135 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M3U TOOLS</title>
     <style>
-        /* Dark Mode Styles */
+        /* Keep the styles you already have */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #121212; /* Dark background */
-            color: #e0e0e0; /* Light text color */
-        }
-        input, button {
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 10px;
-            background-color: #333; /* Dark input and button background */
-            color: #e0e0e0; /* Light text for inputs and button */
-            border: 1px solid #555; /* Light border */
-            border-radius: 5px;
-        }
-        button {
-            background-color: #1a73e8; /* Green button background */
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #1a73e8; /* Darker green on hover */
-        }
-        #result {
-            margin-top: 20px;
-            background-color: #333; /* Dark background for result */
-            padding: 15px;
-            border-radius: 5px;
-        }
-            .box {
-        border: 2px solid #fff; /* Change border color to white */
-        padding: 20px;
-        margin: 20px auto;
-        background-color: #121212; /* Matches container background */
-        border-radius: 10px;
-        color: var(--text-color); /* Matches text color */
-    }
-            /* Bubble Text Style */
-    .bubble-text {
-        background-color: #333;   /* Dark background */
-        color: white;             /* White text */
-        padding: 2px 6px;         /* Padding inside the bubble */
-        font-family: monospace;   /* Monospaced font */
-        border-radius: 5px;       /* Rounded corners */
-    }
-    .bubble-text a {
-        color: white;               /* Set link text color to white */
-        text-decoration: none;      /* Remove underline */
-    }
-
-    .bubble-text a:hover {
-        text-decoration: underline; /* Optionally, add underline on hover */
-    }
-    
-        h1 {
-            color: #1a73e8; /* Light green for heading */
-        }
-        p {
-            color: #e0e0e0; /* Light text for paragraph */
-        }
-           h2 {
-            color: #e0e0e0; /* Light green for heading */
-        }
-           h3 {
-            color: #121212; /* Light green for heading */
-        }        
-        p {
-            color: #e0e0e0; /* Light text for paragraph */
-        }
-{
             background-color: #121212;
             color: white;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding-top: 60px; /* Adjust for fixed navbar */
+            padding-top: none; /* Adjust for fixed navbar */
         }
-
-        h1 {
-            font-size: 2.5em;
-            margin: 30px 0;
-            color: #2196F3;
-            text-align: center;
-        }
-
-        h2 {
-            color: #1a73e8;
-            font-size: 1.8em;
-            text-align: center;
-        }
-
-        h4 {
-            color: #e0e0e0;
-            font-size: 1.8em;
-            text-align: center;
-        }
-
-        p {
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .scroll-container {
-            display: flex;
-            overflow: hidden;
-            width: 100%;
-            height: auto;
-            background-color: #000; /* Optional background color for better visibility */
-        }
-
-        .scroll-container img {
-            height: 100vh; /* Ensures full height of the viewport */
-            width: auto; /* Keeps the image's aspect ratio */
-            flex-shrink: 0;
-            animation: scroll 15s linear infinite;
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-200%); }
-        }
-
-        @media (max-width: 768px) {
-            .scroll-container img {
-                height: auto; /* Adjust height for smaller screens */
-                max-height: 60vh; /* Limit height on mobile */
-                width: 100%; /* Fit the width of the screen */
-            }
-        }
-
         /* Navigation Bar */
         .navbar {
             display: flex;
@@ -291,10 +170,38 @@
             text-align: center;
             font-size: 14px;
             color: gray;
-            padding: 5px 0;
+            padding: 5
+         }
+
+        input, button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #2196F3;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background: #1976D2;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #121212;
+            color: white;
+            border-radius: 4px;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script> <!-- For GZIP decompression -->
 </head>
 <body>
     <!-- Navbar -->
@@ -366,44 +273,16 @@
             <a href="https://m3u-tools.chatango.com/">Chat</a>
         </div>
     </div>
-
-    <!-- Page Content -->
-<h3>test</h3>
-<h3>test</h3>
-    <h2>EPG .gz Only Merger</h2>
-    <p>Upload up to 5 files (Only .gz) to merge:</p>
-    <input type="file" id="file1" accept=".gz">
-    <input type="file" id="file2" accept=".gz">
-    <input type="file" id="file3" accept=".gz">
-    <input type="file" id="file4" accept=".gz">
-    <input type="file" id="file5" accept=".gz">
-    <button onclick="mergeEPGs()">Merge and Download</button>
-    <div id="result"><div style="text-align:center"></div>
-    <div class="info">
-    <div id="result"></div>
-
-     <div class="box"".">
-    <center>
-  	<h2>How to use.</h2>
-  	<p>Enter files 5 at a time max.</p>
-    <p>Hit merge and download.</p>
-    <p>Hit Download merge EPG</p>
-    </center>
+    
+    <div class="container">
+        <h2>Read XCUI Information</h2>
+        <input type="text" id="base-url" placeholder="Enter Base URL (e.g., http://example.com)">
+        <input type="text" id="username" placeholder="Enter Username">
+        <input type="text" id="password" placeholder="Enter Password">
+        <button id="fetch-btn">Fetch Info</button>
+        <div id="result"></div>
     </div>
-    <div id="result"><div style="text-align:center"></div>
-    <div class="info">
-    <center>
-    <p>When downloaded you can simple upload to dropbox or similar then shorten url using bit.ly or short url or any similar services.</p>
 
-     <p>THIS DOES NOT AUTOMATICALLY UPDATE EPG WHEN THEY ARE EXPIRED YOU NEED TO REMAKE OR FIND A SCRIPT TO AUTOMATICALLY DO IT. Each time you make name it the same reupload to Dropbox or similar service and youll be done it will use the same url.</p>
-
-    <p>Put this at the top of your playlist if you want it to load with your playlist. "Note, tvg-id in your playlist needs to match your epg to auto populate. Or else you will need to set it manually on your player such as tivimate.</p>
-
-    <p>#EXTM3U url-tvg="link to epg here</p>
-
-    <div align='center'><a href='https://www.free-website-hit-counter.com'><img src='https://www.free-website-hit-counter.com/zc.php?d=9&id=2064&s=5' border='0' alt='Free Website Hit Counter'></a><br /><small><a href='https://www.free-website-hit-counter.com' title="Free Website Hit Counter"></a></small></div> 
-    </center>
-    <center>&copy; 2024 M3U TOOLS. All rights reserved.</center>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const hamburger = document.getElementById("hamburger");
@@ -421,67 +300,60 @@
                 }
             });
         });
+        // Proxy URL
+        const proxyUrl = "https://moccasin-talia-31.tiiny.io/?url=";
 
-        async function processFile(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = async () => {
-                    try {
-                        let content = reader.result;
-                        if (file.name.endsWith(".gz")) {
-                            content = new TextDecoder().decode(pako.inflate(content));
-                        }
-                        resolve(content);
-                    } catch (err) {
-                        reject(`Error processing file ${file.name}: ${err.message}`);
-                    }
-                };
-                reader.onerror = () => reject(`Error reading file ${file.name}`);
-                reader.readAsArrayBuffer(file);
-            });
-        }
+        document.getElementById('fetch-btn').addEventListener('click', async () => {
+            const baseUrl = document.getElementById('base-url').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
 
-        async function mergeEPGs() {
-            const files = Array.from({ length: 5 }, (_, i) =>
-                document.getElementById(`file${i + 1}`).files[0]
-            ).filter(Boolean);
-
-            if (!files.length) {
-                alert("Please upload at least one file.");
+            if (!baseUrl || !username || !password) {
+                alert('Please fill in all fields');
                 return;
             }
 
-            const parser = new DOMParser();
-            const serializer = new XMLSerializer();
-            const mergedDoc = parser.parseFromString("<tv></tv>", "application/xml");
+            // Construct the M3U URL
+            const m3uUrl = `${baseUrl}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+
+            // Encode the URL for the proxy
+            const encodedUrl = encodeURIComponent(m3uUrl);
+            const fullUrl = `${proxyUrl}${encodedUrl}`;
 
             try {
-                for (const file of files) {
-                    const xmlContent = await processFile(file);
-                    const xmlDoc = parser.parseFromString(xmlContent, "application/xml");
+                // Fetch the data
+                const response = await fetch(fullUrl);
 
-                    if (xmlDoc.querySelector("parsererror")) {
-                        throw new Error(`Invalid XML in file ${file.name}`);
-                    }
-
-                    Array.from(xmlDoc.documentElement.children).forEach((child) =>
-                        mergedDoc.documentElement.appendChild(mergedDoc.importNode(child, true))
-                    );
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const mergedXML = serializer.serializeToString(mergedDoc);
-                const blob = new Blob([mergedXML], { type: "application/xml" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "merged_epg.xml";
-                link.textContent = "Download Merged EPG";
-                document.getElementById("result").innerHTML = "";
-                document.getElementById("result").appendChild(link);
+                // Parse the JSON response
+                const data = await response.json();
+
+                // Extract user and server information
+                const userInfo = data.user_info || {};
+                const serverInfo = data.server_info || {};
+
+                document.getElementById('result').innerHTML = `
+                    <h4>User Information</h4>
+                    <p><strong>Username:</strong> ${userInfo.username || "N/A"}</p>
+                    <p><strong>Password:</strong> ${userInfo.password || "N/A"}</p>
+                    <p><strong>Status:</strong> ${userInfo.status || "N/A"}</p>
+                    <p><strong>Created Date:</strong> ${userInfo.created_at ? new Date(userInfo.created_at * 1000).toLocaleString() : "N/A"}</p>
+                    <p><strong>Expiration Date:</strong> ${userInfo.exp_date ? new Date(userInfo.exp_date * 1000).toLocaleString() : "N/A"}</p>
+                    <p><strong>Active Connections:</strong> ${userInfo.active_cons || "N/A"}</p>
+                    <p><strong>Max Connections:</strong> ${userInfo.max_connections || "N/A"}</p>
+                    <h4>Server Information</h4>
+                    <p><strong>Server Protocol:</strong> ${serverInfo.server_protocol || "N/A"}</p>
+                    <p><strong>Server URL:</strong> ${serverInfo.url || "N/A"}</p>
+                    <p><strong>Timezone:</strong> ${serverInfo.timezone || "N/A"}</p>
+                `;
             } catch (error) {
-                console.error(error);
-                document.getElementById("result").textContent = `Error: ${error.message}`;
+                console.error('Error fetching M3U data:', error);
+                document.getElementById('result').innerHTML = `<p>Error fetching data. Please check your inputs or the proxy server.</p>`;
             }
-        }
+        });
     </script>
 </body>
 </html>

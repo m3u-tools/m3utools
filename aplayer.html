@@ -7,17 +7,63 @@
     <div class="navbar" id="navbar">
         <a href="https://m3u-tools.tiiny.site/" class="logo">M3U TOOLS</a>
         <div class="menu">
-            <a href="https://m3u-tools.tiiny.site/m3uinfo.html">M3U Info Checker</a>
-            <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
-            <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
-            <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
-            <a href="https://m3u-tools.tiiny.site/aplayer.html">Web Player</a>
-            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
-            <a href="https://m3u-tools.chatango.com/">Chat</a>            
+            <!-- M3U Info Checker Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Info Checker</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/m3uinfo.html">M3U Info</a>
+                    <a href="https://m3u-tools.tiiny.site/xcinfo.html">XCUI Info</a>
+                </div>
+            </div>
+
+            <!-- M3U Editor Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">M3U Editor</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
+                </div>
+            </div>
+
+            <!-- XML Editor Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">EPG Editor</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
+                    <a href="https://m3u-tools.tiiny.site/gz.html">GZ Editor 1</a>
+                </div>
+            </div>
+
+            <!-- Web Player Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Web Player</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/aplayer.html">Player</a>
+
+                </div>
+            </div>
+
+            <!-- GitHub Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">GitHub</a>
+                <div class="dropdown-content">
+                    <a href="https://github.com/m3u-tools/m3utools">Repo</a>
+                    <a href="https://github.com/m3u-tools/m3utools/issues">Issues</a>
+                </div>
+            </div>
+
+            <!-- Chat Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Chat</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.chatango.com/">Chat</a>
+                </div>
+            </div>
         </div>
+
         <div class="hamburger" id="hamburger">&#9776;</div>
         <div class="menu-mobile" id="menuMobile">
             <a href="https://m3u-tools.tiiny.site/m3uinfo.html">M3U Info Checker</a>
+            <a href="https://m3u-tools.tiiny.site/xcinfo.html">XCUI Info Checker</a>
             <a href="https://m3u-tools.tiiny.site/m3u.html">M3U Editor</a>
             <a href="https://m3u-tools.tiiny.site/xml.html">XML Editor</a>
             <a href="https://m3u-tools.tiiny.site/gz.html">XML.gz Editor</a>
@@ -26,6 +72,7 @@
             <a href="https://m3u-tools.chatango.com/">Chat</a>
         </div>
     </div>
+
     <title>Advanced Web IPTV Player</title>
 <style>
 /* General Styles */
@@ -229,7 +276,7 @@ video {
     header {
         margin-top: 40px; /* Same as navbar height */
     }    
-/* Navigation Bar */
+        /* Navigation Bar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -245,103 +292,149 @@ video {
             transition: transform 0.3s ease-in-out;
         }
 
-.navbar .logo {
-    font-size: .75em;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
+        .navbar .logo {
+            font-size: .75em;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
 
-.navbar .logo:hover {
-    color: #1a73e8;
-}
+        .navbar .logo:hover {
+            color: #1a73e8;
+        }
 
-.navbar .menu a {
-    font-size: 1em;
-    text-decoration: none;
-    color: #ffffff;
-    padding: 10px 15px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border-radius: 4px;
-}
+        .navbar .menu a {
+            font-size: 1em;
+            text-decoration: none;
+            color: #ffffff;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 4px;
+        }
 
-.navbar .menu a:hover {
-    background-color: #333;
-    color: #1a73e8;
-    transform: translateY(-2px);
-}
+        .navbar .menu a:hover {
+            background-color: #333;
+            color: #1a73e8;
+            transform: translateY(-2px);
+        }
 
-.hamburger {
-    display: none;
-    font-size: 1.8em;
-    color: white;
-    cursor: pointer;
-}
+        /* Dropdown Menu */
+        .navbar .menu .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-/* Hamburger Menu (Mobile) */
-.navbar .menu-mobile {
-    display: none;
-    flex-direction: column;
-    background-color: #000;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    padding: 20px 10px;
-    transition: all 0.3s ease-in-out;
-}
+        .navbar .menu .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            border-radius: 4px;
+        }
 
-.navbar .menu-mobile.open {
-    display: flex;
-}
+        .navbar .menu .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
-.navbar .menu-mobile a {
-    text-decoration: none;
-    background-color: #000; /* Black background */
-    color: white;
-    padding: 15px 20px;
-    margin: 5px 0;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1.2em;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
+        .navbar .menu .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
 
-.navbar .menu-mobile a:hover {
-    background-color: #1976D2; /* Optionally, add a hover color */
-    transform: translateY(-2px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
-}
+        .navbar .menu .dropdown-content a:hover {
+            background-color: #1976D2;
+        }
 
+        .hamburger {
+            display: none;
+            font-size: 1.8em;
+            color: white;
+            cursor: pointer;
+        }
 
-.menu-mobile.open {
-    display: flex;
-    animation: slideDown 0.3s ease-in-out;
-}
+        /* Hamburger Menu (Mobile) */
+        .navbar .menu-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 20px 10px;
+            transition: all 0.3s ease-in-out;
+        }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        .navbar .menu-mobile.open {
+            display: flex;
+        }
 
-@media (max-width: 768px) {
-    .menu {
-        display: none;
-    }
+        .navbar .menu-mobile a {
+            text-decoration: none;
+            background-color: #000; /* Black background */
+            color: white;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
 
-    .hamburger {
-        display: block;
-    }
-}
+        .navbar .menu-mobile a:hover {
+            background-color: #1976D2; /* Optionally, add a hover color */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-mobile.open {
+            display: flex;
+            animation: slideDown 0.3s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            padding: 5px 0;
+        }
 </style>
 
 </head>
@@ -595,22 +688,22 @@ video {
                 item.style.display = item.style.display === 'none' ? '' : 'none';
             });
         }
-document.addEventListener("DOMContentLoaded", () => {
-    const hamburger = document.getElementById("hamburger");
-    const menuMobile = document.getElementById("menuMobile");
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const menuMobile = document.getElementById("menuMobile");
 
-    // Toggle menu visibility on hamburger click
-    hamburger.addEventListener("click", () => {
-        menuMobile.classList.toggle("open");
-    });
+            // Toggle menu visibility on hamburger click
+            hamburger.addEventListener("click", () => {
+                menuMobile.classList.toggle("open");
+            });
 
-    // Close menu if clicked outside
-    document.addEventListener("click", (e) => {
-        if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
-            menuMobile.classList.remove("open");
-        }
-    });
-});
+            // Close menu if clicked outside
+            document.addEventListener("click", (e) => {
+                if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
+                    menuMobile.classList.remove("open");
+                }
+            });
+        });
 
     </script>
 </body>
