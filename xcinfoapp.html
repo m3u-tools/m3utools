@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U TOOLS</title>
+    <style>
+        /* Keep the styles you already have */
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: none; /* Adjust for fixed navbar */
+        }
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .navbar .logo {
+            font-size: .75em;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .logo:hover {
+            color: #1a73e8;
+        }
+
+        .navbar .menu a {
+            font-size: 1em;
+            text-decoration: none;
+            color: #ffffff;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .navbar .menu a:hover {
+            background-color: #333;
+            color: #1a73e8;
+            transform: translateY(-2px);
+        }
+
+        /* Dropdown Menu */
+        .navbar .menu .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar .menu .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            border-radius: 4px;
+        }
+
+        .navbar .menu .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .navbar .menu .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .navbar .menu .dropdown-content a:hover {
+            background-color: #1976D2;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8em;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Hamburger Menu (Mobile) */
+        .navbar .menu-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 20px 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .navbar .menu-mobile.open {
+            display: flex;
+        }
+
+        .navbar .menu-mobile a {
+            text-decoration: none;
+            background-color: #000; /* Black background */
+            color: white;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .menu-mobile a:hover {
+            background-color: #1976D2; /* Optionally, add a hover color */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-mobile.open {
+            display: flex;
+            animation: slideDown 0.3s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            padding: 5
+         }
+
+        input, button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #2196F3;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background: #1976D2;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #121212;
+            color: white;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="#" class="logo">M3U TOOLS</a>
+        <div class="menu">
+            <!-- M3U Info Checker Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Info Checker</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/m3uinfoapp.html">M3U Info</a>
+                    <a href="https://m3u-tools.tiiny.site/xcinfoapp.html">XCUI Info</a>
+                </div>
+            </div>
+
+            <!-- Web Player Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Web Player</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/aplayerapp.html">Player</a>
+
+                </div>
+            </div>
+
+            <!-- GitHub Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">GitHub</a>
+                <div class="dropdown-content">
+                    <a href="https://github.com/m3u-tools/m3utools">Repo</a>
+                    <a href="https://github.com/m3u-tools/m3utools/issues">Issues</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <div class="menu-mobile" id="menuMobile">
+            <a href="https://m3u-tools.tiiny.site/m3uinfoapp.html">M3U Info Checker</a>
+            <a href="https://m3u-tools.tiiny.site/xcinfoapp.html">XCUI Info Checker</a>
+            <a href="https://m3u-tools.tiiny.site/aplayerapp.html">Web Player</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Read XCUI Information</h2>
+        <input type="text" id="base-url" placeholder="Enter Base URL (e.g., http://example.com)">
+        <input type="text" id="username" placeholder="Enter Username">
+        <input type="text" id="password" placeholder="Enter Password">
+        <button id="fetch-btn">Fetch Info</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const menuMobile = document.getElementById("menuMobile");
+
+            // Toggle menu visibility on hamburger click
+            hamburger.addEventListener("click", () => {
+                menuMobile.classList.toggle("open");
+            });
+
+            // Close menu if clicked outside
+            document.addEventListener("click", (e) => {
+                if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
+                    menuMobile.classList.remove("open");
+                }
+            });
+        });
+        // Proxy URL
+        const proxyUrl = "https://moccasin-talia-31.tiiny.io/?url=";
+
+        document.getElementById('fetch-btn').addEventListener('click', async () => {
+            const baseUrl = document.getElementById('base-url').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!baseUrl || !username || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Construct the M3U URL
+            const m3uUrl = `${baseUrl}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+
+            // Encode the URL for the proxy
+            const encodedUrl = encodeURIComponent(m3uUrl);
+            const fullUrl = `${proxyUrl}${encodedUrl}`;
+
+            try {
+                // Fetch the data
+                const response = await fetch(fullUrl);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Parse the JSON response
+                const data = await response.json();
+
+                // Extract user and server information
+                const userInfo = data.user_info || {};
+                const serverInfo = data.server_info || {};
+
+                document.getElementById('result').innerHTML = `
+                    <h4>User Information</h4>
+                    <p><strong>Username:</strong> ${userInfo.username || "N/A"}</p>
+                    <p><strong>Password:</strong> ${userInfo.password || "N/A"}</p>
+                    <p><strong>Status:</strong> ${userInfo.status || "N/A"}</p>
+                    <p><strong>Created Date:</strong> ${userInfo.created_at ? new Date(userInfo.created_at * 1000).toLocaleString() : "N/A"}</p>
+                    <p><strong>Expiration Date:</strong> ${userInfo.exp_date ? new Date(userInfo.exp_date * 1000).toLocaleString() : "N/A"}</p>
+                    <p><strong>Active Connections:</strong> ${userInfo.active_cons || "N/A"}</p>
+                    <p><strong>Max Connections:</strong> ${userInfo.max_connections || "N/A"}</p>
+                    <h4>Server Information</h4>
+                    <p><strong>Server Protocol:</strong> ${serverInfo.server_protocol || "N/A"}</p>
+                    <p><strong>Server URL:</strong> ${serverInfo.url || "N/A"}</p>
+                    <p><strong>Timezone:</strong> ${serverInfo.timezone || "N/A"}</p>
+                `;
+            } catch (error) {
+                console.error('Error fetching M3U data:', error);
+                document.getElementById('result').innerHTML = `<p>Error fetching data. Please check your inputs or the proxy server.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
