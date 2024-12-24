@@ -467,6 +467,32 @@ h3 {
 h2 {
             color: #e0e0e0; /* Light green for heading */
         }
+    /* Center the search input box */
+    #categorySearch {
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Style category checkboxes and labels */
+    .category {
+        margin-bottom: 10px;
+    }
+
+    /* Center the "Select All Categories" label and checkbox */
+    #selectAllCategories {
+        margin-right: 5px;
+    }
+
+    /* Ensure the category list has some padding */
+    #categoryList {
+        padding-left: 0;
+    }
 </style>
 
 <style>
@@ -539,174 +565,212 @@ Or looks like group-title="" it will not work</p>
     <center>&copy; 2024 M3U TOOLS. All rights reserved.</center>
   </div>
 
-  <script>
-        let currentContent = '';
-        let combinedContent = '';
-        let isFirstHeader = true; // Track the first #EXTM3U
+<script>
+    let currentContent = '';
+    let combinedContent = '';
+    let isFirstHeader = true; // Track the first #EXTM3U
 
-        // Process file or URL input
+    // Process file or URL input
     function processInput() {
-      const fileInput = document.getElementById('m3uFileInput');
-      const urlInput = document.getElementById('m3uUrlInput');
-      const file = fileInput.files[0];
-      const url = urlInput.value.trim();
+        const fileInput = document.getElementById('m3uFileInput');
+        const urlInput = document.getElementById('m3uUrlInput');
+        const file = fileInput.files[0];
+        const url = urlInput.value.trim();
 
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          currentContent = cleanM3UContent(event.target.result);
-          displayCategories(currentContent);
-        };
-        reader.readAsText(file);
-      } else if (url) {
-fetch('https://moccasin-talia-31.tiiny.io/?url=' + encodeURIComponent(url))
-          .then(response => {
-            if (!response.ok) throw new Error('Failed to fetch the URL.');
-            return response.text();
-          })
-          .then(text => {
-            currentContent = cleanM3UContent(text);
-            displayCategories(currentContent);
-          })
-          .catch(err => alert("Error fetching URL: " + err.message));
-      } else {
-        alert("Please upload a file or enter a URL.");
-      }
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                currentContent = cleanM3UContent(event.target.result);
+                displayCategories(currentContent);
+            };
+            reader.readAsText(file);
+        } else if (url) {
+            fetch('https://moccasin-talia-31.tiiny.io/?url=' + encodeURIComponent(url))
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch the URL.');
+                    return response.text();
+                })
+                .then(text => {
+                    currentContent = cleanM3UContent(text);
+                    displayCategories(currentContent);
+                })
+                .catch(err => alert("Error fetching URL: " + err.message));
+        } else {
+            alert("Please upload a file or enter a URL.");
+        }
     }
 
-        // Clean M3U content
-        function cleanM3UContent(content) {
-            const lines = content.split('\n').map(line => line.trim());
-            const cleanedLines = [];
-            const urlRegex = /^https?:\/\//;
+    // Clean M3U content
+    function cleanM3UContent(content) {
+        const lines = content.split('\n').map(line => line.trim());
+        const cleanedLines = [];
+        const urlRegex = /^https?:\/\//;
 
-            let lastMetadata = '';
+        let lastMetadata = '';
 
-            for (const line of lines) {
-                if (line.startsWith('#EXTM3U')) {
-                    if (isFirstHeader) {
-                        cleanedLines.push(line); // Add only the first #EXTM3U
-                        isFirstHeader = false;
-                    }
-                } else if (line.startsWith('#EXTINF:')) {
-                    lastMetadata = line; // Store the metadata line
-                } else if (urlRegex.test(line)) {
-                    if (lastMetadata) {
-                        cleanedLines.push(lastMetadata); // Add metadata + URL pair
-                        lastMetadata = ''; // Reset metadata
-                    }
-                    cleanedLines.push(line);
+        for (const line of lines) {
+            if (line.startsWith('#EXTM3U')) {
+                if (isFirstHeader) {
+                    cleanedLines.push(line); // Add only the first #EXTM3U
+                    isFirstHeader = false;
                 }
+            } else if (line.startsWith('#EXTINF:')) {
+                lastMetadata = line; // Store the metadata line
+            } else if (urlRegex.test(line)) {
+                if (lastMetadata) {
+                    cleanedLines.push(lastMetadata); // Add metadata + URL pair
+                    lastMetadata = ''; // Reset metadata
+                }
+                cleanedLines.push(line);
             }
-
-            return cleanedLines.join('\n');
         }
 
-        // Display categories for selection
-        function displayCategories(content) {
-            const lines = content.split('\n');
-            const categories = new Set();
+        return cleanedLines.join('\n');
+    }
 
-            // Extract categories
-            lines.forEach(line => {
-                const match = line.match(/group-title="([^"]+)"/);
-                if (match) {
-                    categories.add(match[1]);
-                }
-            });
+    // Display categories for selection
+    function displayCategories(content) {
+        const lines = content.split('\n');
+        const categories = new Set();
 
-            const categoryList = document.getElementById('categoryList');
-            categoryList.innerHTML = '';
+        // Extract categories
+        lines.forEach(line => {
+            const match = line.match(/group-title="([^"]+)"/);
+            if (match) {
+                categories.add(match[1]);
+            }
+        });
 
-            const selectAllDiv = document.createElement('div');
-            selectAllDiv.innerHTML = `
-                <input type="checkbox" id="selectAllCategories" />
-                <label for="selectAllCategories">Select All Categories</label>
+        const categoryList = document.getElementById('categoryList');
+        categoryList.innerHTML = '';
+
+        // Create and add the search input at the top of category list
+        const searchInputDiv = document.createElement('div');
+        searchInputDiv.style.textAlign = 'center';  // Center the search box
+        searchInputDiv.innerHTML = `
+            <input type="text" id="categorySearch" placeholder="Search categories..." />
+        `;
+        searchInputDiv.querySelector('input').addEventListener('input', filterCategories);
+        categoryList.insertAdjacentElement('beforebegin', searchInputDiv);  // Place it before the category list
+
+        const selectAllDiv = document.createElement('div');
+        selectAllDiv.innerHTML = `
+            <input type="checkbox" id="selectAllCategories" />
+            <label for="selectAllCategories">Select All Categories</label>
+        `;
+        categoryList.appendChild(selectAllDiv);
+
+        // Create category divs with checkboxes
+        categories.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.classList.add('category');
+            categoryDiv.innerHTML = `
+                <input type="checkbox" value="${category}" class="categoryCheckbox" />
+                <label>${category}</label>
             `;
-            categoryList.appendChild(selectAllDiv);
+            categoryList.appendChild(categoryDiv);
+        });
 
-            categories.forEach(category => {
-                const categoryDiv = document.createElement('div');
-                categoryDiv.classList.add('category');
-                categoryDiv.innerHTML = `
-                    <input type="checkbox" value="${category}" class="categoryCheckbox" />
-                    <label>${category}</label>
-                `;
-                categoryList.appendChild(categoryDiv);
-            });
-
-            // Add event listener for "Select All" checkbox
-            document.getElementById('selectAllCategories').addEventListener('change', function() {
-                const checkboxes = document.querySelectorAll('.categoryCheckbox');
-                checkboxes.forEach(checkbox => {
+        // Add event listener for "Select All" checkbox
+        document.getElementById('selectAllCategories').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.categoryCheckbox');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.closest('.category').style.display !== 'none') { // Only select visible checkboxes
                     checkbox.checked = this.checked;
-                });
-            });
-
-            // Show the preview section
-            document.getElementById('previewSection').style.display = 'block';
-        }
-
-        // Add selected categories to the combined list
-        function addToCombinedContent() {
-            const selectedCategories = Array.from(
-                document.querySelectorAll('#categoryList input[type="checkbox"]:checked')
-            ).map(checkbox => checkbox.value);
-
-            if (selectedCategories.length === 0) {
-                alert("Please select at least one category.");
-                return;
-            }
-
-            const lines = currentContent.split('\n');
-            const filteredLines = [];
-            let includeNextLine = false;
-
-            lines.forEach(line => {
-                const match = line.match(/group-title="([^"]+)"/);
-                if (match) {
-                    includeNextLine = selectedCategories.includes(match[1]);
-                }
-                if (includeNextLine || line.startsWith('#EXTM3U')) {
-                    filteredLines.push(line);
-                }
-            });
-
-            // Append to combined content
-            if (combinedContent) {
-                combinedContent += '\n'; // Ensure a single newline between files
-            }
-            combinedContent += filteredLines.join('\n');
-
-            alert("Selected categories added to the combined playlist.");
-            document.getElementById('downloadLinkContainer').style.display = 'block';
-        }
-
-        // Prepare the combined content for download
-        function prepareDownload() {
-            const blob = new Blob([combinedContent], { type: 'text/plain' });
-
-            const url = URL.createObjectURL(blob);
-            const downloadLink = document.getElementById('downloadLink');
-            downloadLink.href = url;
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const hamburger = document.getElementById("hamburger");
-            const menuMobile = document.getElementById("menuMobile");
-
-            // Toggle menu visibility on hamburger click
-            hamburger.addEventListener("click", () => {
-                menuMobile.classList.toggle("open");
-            });
-
-            // Close menu if clicked outside
-            document.addEventListener("click", (e) => {
-                if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
-                    menuMobile.classList.remove("open");
                 }
             });
         });
-  </script>
+
+        // Show the preview section
+        document.getElementById('previewSection').style.display = 'block';
+    }
+
+    // Filter categories based on search input
+    function filterCategories() {
+        const searchTerm = document.getElementById('categorySearch').value.toLowerCase();
+        const categoryDivs = document.querySelectorAll('.category');
+
+        let visibleCount = 0;
+        categoryDivs.forEach(div => {
+            const label = div.querySelector('label').textContent.toLowerCase();
+            const checkbox = div.querySelector('input[type="checkbox"]');
+
+            if (label.includes(searchTerm)) {
+                div.style.display = 'block';
+                visibleCount++;
+            } else {
+                div.style.display = 'none';
+            }
+        });
+
+        // Adjust the "Select All" checkbox state based on visible categories
+        const selectAllCheckbox = document.getElementById('selectAllCategories');
+        const checkedCount = document.querySelectorAll('.categoryCheckbox:checked').length;
+
+        selectAllCheckbox.checked = visibleCount > 0 && visibleCount === checkedCount;
+    }
+
+    // Add selected categories to the combined list
+    function addToCombinedContent() {
+        const selectedCategories = Array.from(
+            document.querySelectorAll('#categoryList input[type="checkbox"]:checked')
+        ).map(checkbox => checkbox.value);
+
+        if (selectedCategories.length === 0) {
+            alert("Please select at least one category.");
+            return;
+        }
+
+        const lines = currentContent.split('\n');
+        const filteredLines = [];
+        let includeNextLine = false;
+
+        lines.forEach(line => {
+            const match = line.match(/group-title="([^"]+)"/);
+            if (match) {
+                includeNextLine = selectedCategories.includes(match[1]);
+            }
+            if (includeNextLine || line.startsWith('#EXTM3U')) {
+                filteredLines.push(line);
+            }
+        });
+
+        // Append to combined content
+        if (combinedContent) {
+            combinedContent += '\n'; // Ensure a single newline between files
+        }
+        combinedContent += filteredLines.join('\n');
+
+        alert("Selected categories added to the combined playlist.");
+        document.getElementById('downloadLinkContainer').style.display = 'block';
+    }
+
+    // Prepare the combined content for download
+    function prepareDownload() {
+        const blob = new Blob([combinedContent], { type: 'text/plain' });
+
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.getElementById('downloadLink');
+        downloadLink.href = url;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const hamburger = document.getElementById("hamburger");
+        const menuMobile = document.getElementById("menuMobile");
+
+        // Toggle menu visibility on hamburger click
+        hamburger.addEventListener("click", () => {
+            menuMobile.classList.toggle("open");
+        });
+
+        // Close menu if clicked outside
+        document.addEventListener("click", (e) => {
+            if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
+                menuMobile.classList.remove("open");
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
