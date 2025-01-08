@@ -304,7 +304,7 @@
     }
 </style>
 
-</head>
+<script defer data-domain="m3u-tools.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script><script type="text/javascript" src="https://tiiny.host/ad-script.js"></script></head>
 <body>
     <!-- Navbar -->
     <div class="navbar" id="navbar">
@@ -626,12 +626,19 @@
             if (response && response.ok) {
                 const data = await response.json();
                 const userInfo = data.user_info || {};
+                const serverInfo = data.server_info || {};
 
                 output = `\n${entry}\n`;
                 output += `<strong>Username:</strong> ${userInfo.username || "N/A"}<br>`;
                 output += `<strong>Status:</strong> ${userInfo.status || "N/A"}<br>`;
                 output += `<strong>Created Date:</strong> ${userInfo.created_at ? new Date(userInfo.created_at * 1000).toLocaleString() : "N/A"}<br>`;
                 output += `<strong>Expiration Date:</strong> ${userInfo.exp_date ? new Date(userInfo.exp_date * 1000).toLocaleString() : "N/A"}<br>`;
+                output += `<strong>Active Connections:</strong> ${userInfo.active_cons || "N/A"}<br>`;
+                output += `<strong>Max Connections:</strong> ${userInfo.max_connections || "N/A"}<br>`;
+                output += `<strong>Allowed Outputs:</strong> ${userInfo.allowed_output_formats || "N/A"}<br>`;
+                output += `<strong>Server Protocol:</strong> ${serverInfo.server_protocol || "N/A"}<br>`;
+                output += `<strong>Server URL:</strong> ${serverInfo.url || "N/A"}<br>`;
+                output += `<strong>Timezone:</strong> ${serverInfo.timezone || "N/A"}<br>`;
 
                 isActive = true;
             }
