@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist & Xtream Codes Checker</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+        background-color: #121212; /* Dark background */
+        color: white; /* White text */
+        margin: 0; /* Remove default margin */
+        overflow-y: auto; /* Allow page scrolling */
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    #result {
+        margin-top: 20px;
+        white-space: pre-wrap;
+        background-color: #444; /* Dark box for results */
+        padding: 15px;
+        border-radius: 5px;
+        width: 90%;
+        max-width: 550px;
+        max-height: 1000px; /* Max height for the result box */
+        min-height: 0px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        overflow-y: auto; /* Scrollable if content overflows */
+        margin-bottom: 20px; /* Space below result box */
+    }
+
+    #fileInput, #pasteInput {
+        width: 300px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        background-color: #1a73e8; /* Blue button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background-color: #1565c0; /* Darker blue on hover */
+    }
+
+    /* Style for file input button */
+    #fileInput[type="file"] {
+        background-color: #1a73e8; /* Blue button */
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+    }
+
+    select, input[type="file"], textarea {
+        background-color: #555; /* Dark background for inputs */
+        color: white;
+        border: 1px solid #444; /* Lighter border */
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+    select:focus, input[type="file"]:focus, textarea:focus {
+        outline: none;
+        border-color: #1a73e8; /* Blue border on focus */
+    }
+
+    textarea {
+        height: 150px; /* Specific height for paste box */
+        resize: none; /* Prevent resizing */
+    }
+
+    .header {
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 20px;
+        color: #1a73e8;
+    }
+
+    h1 {
+        color: #1a73e8; /* Blue color matching other elements */
+    }
+
+    /* Custom Blue Button for File Input */
+    .file-button {
+        background-color: #1a73e8; /* Blue background */
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .file-button:hover {
+        background-color: #1565c0; /* Darker blue on hover */
+    }
+
+    /* Flex container for the buttons */
+    .button-container {
+        display: flex;
+        gap: 10px; /* Space between buttons */
+        margin-top: 10px;
+        justify-content: center; /* Center buttons horizontally */
+    }
+
+    /* Navigation Bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #000;
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .navbar .logo {
+        font-size: .75em;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .navbar .logo:hover {
+        color: #1a73e8;
+    }
+
+    .navbar .menu a {
+        font-size: 1em;
+        text-decoration: none;
+        color: #ffffff;
+        padding: 10px 15px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        border-radius: 4px;
+    }
+
+    .navbar .menu a:hover {
+        background-color: #333;
+        color: #1a73e8;
+        transform: translateY(-2px);
+    }
+
+    /* Dropdown Menu */
+    .navbar .menu .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .navbar .menu .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #333;
+        min-width: 160px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        z-index: 1;
+        border-radius: 4px;
+    }
+
+    .navbar .menu .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .navbar .menu .dropdown-content a {
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .navbar .menu .dropdown-content a:hover {
+        background-color: #1976D2;
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 1.8em;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* Hamburger Menu (Mobile) */
+    .navbar .menu-mobile {
+        display: none;
+        flex-direction: column;
+        background-color: #000;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        padding: 20px 10px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .navbar .menu-mobile.open {
+        display: flex;
+    }
+
+    .navbar .menu-mobile a {
+        text-decoration: none;
+        background-color: #000; /* Black background */
+        color: white;
+        padding: 15px 20px;
+        margin: 5px 0;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 1.2em;
+        transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar .menu-mobile a:hover {
+        background-color: #1976D2; /* Optionally, add a hover color */
+        transform: translateY(-2px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .menu-mobile.open {
+        display: flex;
+        animation: slideDown 0.3s ease-in-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .menu {
+            display: none;
+        }
+
+        .hamburger {
+            display: block;
+        }
+    }
+
+    .instructions-box {
+        background-color: #333; /* Dark background for the instructions box */
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        max-width: 350px;
+        width: 100%;
+        font-size: 16px;
+        margin: 20px auto;
+    }
+
+    .instructions-box h2 {
+        color: #1a73e8; /* Blue title */
+        font-size: 20px;
+    }
+
+    .instructions-box p {
+        margin: 10px 0;
+    }
+
+    .instructions-box span {
+        font-weight: bold;
+    }
+
+    .instructions-box .url {
+        color: #4caf50; /* Green color for URLs */
+    }
+
+    .instructions-box .username, .instructions-box .password {
+        color: #ff9800; /* Orange color for username/password */
+    }
+
+    .instructions-box .m3u-format {
+        color: #ff5722; /* Red-Orange color for M3U format */
+    }
+</style>
+
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="#" class="logo">M3U TOOLS</a>
+        <div class="menu">
+            <!-- M3U Info Checker Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Info Checker</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/m3uinfoapp.html">M3U Info</a>
+                    <a href="https://m3u-tools.tiiny.site/xcinfoapp.html">XCUI Info</a>
+                    <a href="https://m3u-tools.tiiny.site/bulkapp.html">Bulk Account Info</a>
+                </div>
+            </div>
+
+            <!-- Web Player Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Web Player</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/aplayerapp.html">Player</a>
+
+                </div>
+            </div>
+
+            <!-- GitHub Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">GitHub</a>
+                <div class="dropdown-content">
+                    <a href="https://github.com/m3u-tools/m3utools">Repo</a>
+                    <a href="https://github.com/m3u-tools/m3utools/issues">Issues</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <div class="menu-mobile" id="menuMobile">
+            <a href="https://m3u-tools.tiiny.site/m3uinfoapp.html">M3U Info Checker</a>
+            <a href="https://m3u-tools.tiiny.site/xcinfoapp.html">XCUI Info Checker</a>        
+            <a href="https://m3u-tools.tiiny.site/bulkapp.html">Bulk Account Info</a>
+            <a href="https://m3u-tools.tiiny.site/aplayerapp.html">Web Player</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+    </div>
+    <br>
+    <br>
+    <center><h1>Bulk Account Checker</h1></center>
+    <br>
+    <form id="uploadForm">
+        <label for="format">Choose Format:</label>
+        <select id="format" required>
+            <option value="m3u">M3U/M3U8</option>
+            <option value="xi">Xtream Codes (xi)</option>
+        </select>
+        <br><br>
+        
+        <label for="inputMethod">Choose Input Method:</label>
+        <select id="inputMethod" required>
+            <option value="file">File Upload</option>
+            <option value="paste">Paste</option>
+        </select>
+        <br><br>
+
+        <!-- Custom Blue Button for File Upload -->
+        <label for="fileInput" id="customFileButton" class="file-button">Choose File</label>
+        <input type="file" id="fileInput" accept=".txt" style="display: none;">
+        <button type="submit">Check Entries</button>
+        
+        <!-- Paste Input -->
+        <textarea id="pasteInput" placeholder="Paste your content here..." style="display: none;"></textarea>
+    </form>
+
+    <div id="result"></div>
+    <!-- Button container with Download and Copy buttons -->
+    <div class="button-container">
+
+        <!-- Copy Button -->
+        <button id="copyButton" style="display: none;" onclick="copyResults()">Copy Results</button>
+    </div>
+    <!-- Toggle Button -->
+    <button id="toggleInstructions" class="collapsible-header">Show Instructions</button>
+    
+    <!-- Instructions Box -->
+    <div id="instructionsBox" class="instructions-box" style="display: none;">
+        <center>
+            <h2>Instructions</h2>
+            <p><b>XI example:</b></p>
+            <p><b>🌐 URL</b></p>
+            <p>👤 Username 🔐 Password</p>
+            <p>👤 Username 🔐 Password</p>
+            <p>👤 Username 🔐 Password</p>
+            <p><b>If you using multi servers just repeat the above steps in the same file. NOTE using multi servers is really slow</b></p>
+           <p>If using multi servers here is an example</p>
+            <p><b>🌐 URL</b></p>
+            <p>👤 Username 🔐 Password</p>
+            <p>👤 Username 🔐 Password</p>
+            <p>👤 Username 🔐 Password</p>
+            <p>*</p>
+            <p><b>🌐 URL</b></p>
+            <p>👤 Username 🔐 Password</p>
+            <p>👤 Username 🔐 Password</p>
+            <p>👤 Username 🔐 Password</p>  
+            <br>
+            <p><b>M3U example:</b></p>
+            <p>🔗m3uurl-1</p>
+        <p>(add a blank line here)</p>
+            <p>🔗m3uurl-2</p>
+        <p>(add a blank line here)</p>
+            <p>🔗m3uurl-3</p>
+            <p><b>These are in .txt format!<b></p>
+        </center>
+    </div>
+</div>
+<script>
+    // Show the appropriate input method based on the selection
+    document.getElementById('inputMethod').addEventListener('change', function() {
+        const fileInput = document.getElementById('fileInput');
+        const pasteInput = document.getElementById('pasteInput');
+        if (this.value === 'file') {
+            fileInput.style.display = 'block';
+            pasteInput.style.display = 'none';
+        } else {
+            fileInput.style.display = 'none';
+            pasteInput.style.display = 'block';
+        }
+    });
+
+    // Handle the form submission
+    document.getElementById('uploadForm').onsubmit = function(e) {
+        e.preventDefault();
+        const inputMethod = document.getElementById('inputMethod').value;
+        const format = document.getElementById('format').value;
+        const resultDiv = document.getElementById('result');
+        let content = '';
+
+        if (inputMethod === 'file') {
+            const fileInput = document.getElementById('fileInput').files[0];
+            if (!fileInput) {
+                alert('Please upload a file.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                content = event.target.result;
+                processContent(content, format);
+            };
+            reader.readAsText(fileInput);
+        } else if (inputMethod === 'paste') {
+            content = document.getElementById('pasteInput').value.trim();
+            if (!content) {
+                alert('Please paste content.');
+                return;
+            }
+            processContent(content, format);
+        }
+    };
+
+    // Function to process the content depending on the format selected (M3U or Xtream Codes)
+    function processContent(content, format) {
+        const resultDiv = document.getElementById('result');
+        let entries = [];
+        
+        if (format === 'm3u') {
+            entries = content.split(/\s+/);
+        } else if (format === 'xi') {
+            const xiLines = content.split(/\n/);
+            let currentUrl = '';
+            for (let i = 0; i < xiLines.length; i++) {
+                if (xiLines[i].startsWith('🌐')) {
+                    currentUrl = xiLines[i].replace('🌐 ', '').trim();
+                } else if (xiLines[i].startsWith('👤')) {
+                    const userPassLine = xiLines[i].split('🔐');
+                    if (userPassLine.length === 2) {
+                        const username = userPassLine[0].replace('👤 ', '').trim();
+                        const password = userPassLine[1].trim();
+                        if (currentUrl && username && password) {
+                            entries.push(`${currentUrl}*${username}*${password}`);
+                        }
+                    }
+                }
+            }
+        }
+
+        resultDiv.innerHTML = 'Checking...';
+        checkEntries(entries, format);
+    }
+
+    // Updated checkEntries function to process requests in parallel with concurrency control
+    async function checkEntries(entries, format) {
+        const resultDiv = document.getElementById('result');
+        let activeResults = ''; // For active entries
+        let inactiveResults = ''; // For inactive entries
+
+        // In-memory cache to avoid re-checking the same URL
+        const cache = new Map();
+
+        // Process entries with concurrency limit
+        const concurrencyLimit = 5; // Adjust this as needed
+        let activeCount = 0;
+        const results = [];
+
+        // Function to throttle the concurrency of API calls
+        const processEntry = async (entry) => {
+            while (activeCount >= concurrencyLimit) {
+                await new Promise(resolve => setTimeout(resolve, 50)); // Wait 50ms before retrying
+            }
+
+            activeCount++;
+            try {
+                const result = await checkEntry(entry, format, cache);
+                results.push(result);
+            } catch (err) {
+                console.error('Error checking entry:', entry, err);
+            }
+            activeCount--;
+        };
+
+        // Initiate parallel processing of all entries
+        const promises = entries.map(entry => processEntry(entry));
+        await Promise.all(promises);
+
+        // Process the results after all requests are completed
+        results.forEach(({ entry, isActive, resultContent }) => {
+            if (isActive) {
+                activeResults += resultContent + '<br>';
+            } else {
+                inactiveResults += `${entry}<br><br>`;
+            }
+        });
+
+        // Update resultDiv only once after processing all entries
+        resultDiv.innerHTML = '';
+
+        if (activeResults) {
+            resultDiv.innerHTML += `<div class="header">Active Accounts</div>${activeResults}`;
+        }
+        if (inactiveResults) {
+            resultDiv.innerHTML += `<div class="header">Inactive Accounts</div><div style="color: red;">${inactiveResults}</div>`;
+        }
+
+        // Show Copy and Download Buttons
+        document.getElementById('copyButton').style.display = activeResults || inactiveResults ? 'block' : 'none';
+        document.getElementById('downloadButton').style.display = activeResults || inactiveResults ? 'block' : 'none';
+    }
+
+    // Updated checkEntry to use cache and reduce redundant requests
+    async function checkEntry(entry, format, cache) {
+        if (cache.has(entry)) {
+            return cache.get(entry); // Return cached result if entry is already checked
+        }
+
+        let response;
+        let output = '';
+        let isActive = false;
+
+        const proxyUrl = 'https://moccasin-talia-31.tiiny.io/?url='; // Proxy URL
+
+        // Check M3U or Xtream Codes format
+        if (format === 'm3u') {
+            const modifiedUrl = entry.replace('/get.php?', '/player_api.php?');
+            const proxiedUrl = proxyUrl + encodeURIComponent(modifiedUrl); // Prepend proxy to URL
+            response = await fetch(proxiedUrl).catch(() => null);
+            if (response && response.ok) {
+                const data = await response.json();
+                const userInfo = data.user_info || {};
+                const serverInfo = data.server_info || {};
+
+                output = `\n${entry}\n`;
+                output += `<strong>Username:</strong> ${userInfo.username || "N/A"}<br>`;
+                output += `<strong>Password:</strong> ${userInfo.password || "N/A"}<br>`;
+                output += `<strong>Status:</strong> ${userInfo.status || "N/A"}<br>`;
+                output += `<strong>Created Date:</strong> ${userInfo.created_at ? new Date(userInfo.created_at * 1000).toLocaleString() : "N/A"}<br>`;
+                output += `<strong>Expiration Date:</strong> ${userInfo.exp_date ? new Date(userInfo.exp_date * 1000).toLocaleString() : "N/A"}<br>`;
+                output += `<strong>Active Connections:</strong> ${userInfo.active_cons || "N/A"}<br>`;
+                output += `<strong>Max Connections:</strong> ${userInfo.max_connections || "N/A"}<br>`;
+                output += `<strong>Allowed Outputs:</strong> ${userInfo.allowed_output_formats || "N/A"}<br>`;
+                output += `<strong>Server Protocol:</strong> ${serverInfo.server_protocol || "N/A"}<br>`;
+                output += `<strong>Server URL:</strong> ${serverInfo.url || "N/A"}<br>`;
+                output += `<strong>Timezone:</strong> ${serverInfo.timezone || "N/A"}<br>`;
+
+                isActive = true;
+            }
+        } else if (format === 'xi') {
+            const [url, username, password] = entry.split('*');
+            const xiUrl = `${url}/player_api.php?username=${username}&password=${password}`;
+            const proxiedXiUrl = proxyUrl + encodeURIComponent(xiUrl); // Prepend proxy to URL
+            response = await fetch(proxiedXiUrl).catch(() => null);
+            if (response && response.ok) {
+                const data = await response.json();
+                const userInfo = data.user_info || {};
+
+                output = `\n${entry}\n`;
+                output += `<strong>Username:</strong> ${userInfo.username || "N/A"}<br>`;
+                output += `<strong>Status:</strong> ${userInfo.status || "N/A"}<br>`;
+                output += `<strong>Created Date:</strong> ${userInfo.created_at ? new Date(userInfo.created_at * 1000).toLocaleString() : "N/A"}<br>`;
+                output += `<strong>Expiration Date:</strong> ${userInfo.exp_date ? new Date(userInfo.exp_date * 1000).toLocaleString() : "N/A"}<br>`;
+
+                isActive = true;
+            }
+        }
+
+        const result = { entry, isActive, resultContent: output };
+        cache.set(entry, result); // Cache the result
+        return result;
+    }
+
+    // Function to copy the results to clipboard
+    function copyResults() {
+        const resultDiv = document.getElementById('result');
+        let content = '';
+
+        // Collect all the content, including headers and results
+        content += resultDiv.innerHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "") + '\n\n';
+
+        // Create a temporary textarea to copy the content
+        const textarea = document.createElement('textarea');
+        textarea.value = content;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        alert('Results copied to clipboard!');
+    }
+
+    // Function to download the results as a .txt file
+    function downloadResults() {
+        const resultDiv = document.getElementById('result');
+        let content = '';
+
+        // Collect all the content, including headers and results
+        content += resultDiv.innerHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "") + '\n\n';
+
+        // Create a downloadable file
+        const blob = new Blob([content], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'results.txt';
+        link.click();
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const hamburger = document.getElementById("hamburger");
+        const menuMobile = document.getElementById("menuMobile");
+
+        // Toggle menu visibility on hamburger click
+        hamburger.addEventListener("click", () => {
+            menuMobile.classList.toggle("open");
+        });
+
+        // Close menu if clicked outside
+        document.addEventListener("click", (e) => {
+            if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
+                menuMobile.classList.remove("open");
+            }
+        });
+    });
+
+    // Toggle the visibility of the instructions box
+    document.getElementById('toggleInstructions').addEventListener('click', function () {
+        const instructionsBox = document.getElementById('instructionsBox');
+        const isVisible = instructionsBox.style.display === 'block';
+        instructionsBox.style.display = isVisible ? 'none' : 'block';
+        this.textContent = isVisible ? 'Show Instructions' : 'Hide Instructions';
+    });
+</script>
+
+</body>
+</html>
