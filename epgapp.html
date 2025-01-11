@@ -1,0 +1,617 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPTV Channel Guide</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+        }
+
+        #guide-container {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-x: auto;
+        }
+
+        .channel-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            background-color: #000;
+            box-sizing: border-box;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+
+        .channel-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            margin-right: 20px;
+            box-sizing: border-box;
+            width: 120px;
+        }
+
+        .channel-info img {
+            width: 70px;
+            height: 50px;
+            margin-bottom: 5px;
+            background-color: white;
+            padding: 5px;
+            display: block;
+        }
+
+        .channel-info span {
+            font-size: 1em;
+            font-weight: bold;
+            width: 100px;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .hide-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .hide-button:hover {
+            background-color: darkred;
+        }
+
+        .program-list {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+            flex-grow: 1;
+            justify-content: flex-start;
+        }
+
+        .program-block {
+            min-width: 200px;
+            background-color: #444;
+            border: 1px solid #555;
+            color: #000;
+            padding: 5px;
+            margin-right: 5px;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            will-change: transform;
+        }
+
+        .program-block.current .program-title,
+        .program-block.current .program-description {
+            color: black !important;
+        }
+
+        .program-block.current {
+            background-color: #6ab7ff;
+            color: #000;
+        }
+
+        .program-description {
+            font-size: 0.9em;
+            margin-top: 5px;
+            color: #ccc;
+            display: block;
+            overflow-wrap: break-word;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .program-block.show-description .program-description {
+            display: block;
+        }
+
+        #hidden-channels-container {
+            margin-top: 20px;
+        }
+
+        .hidden-channel {
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .program-time {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .program-title {
+            font-size: 0.9em;
+            font-weight: bold;
+            text-align: center;
+            color: #ccc;
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
+        }
+
+        #videoPlayerContainer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 1); /* Full black background */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #videoPlayer {
+            width: 100%;
+            height: 100%;
+        }
+
+        #closeButton {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: transparent;
+            color: grey;
+            border: none;
+            font-size: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #closeButton:hover {
+            background-color: transparent;
+        }
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .navbar .logo {
+            font-size: .75em;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .logo:hover {
+            color: #1a73e8;
+        }
+
+        .navbar .menu a {
+            font-size: 1em;
+            text-decoration: none;
+            color: #ffffff;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .navbar .menu a:hover {
+            background-color: #333;
+            color: #1a73e8;
+            transform: translateY(-2px);
+        }
+
+        /* Dropdown Menu */
+        .navbar .menu .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar .menu .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            border-radius: 4px;
+        }
+
+        .navbar .menu .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .navbar .menu .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .navbar .menu .dropdown-content a:hover {
+            background-color: #1976D2;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8em;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Hamburger Menu (Mobile) */
+        .navbar .menu-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 20px 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .navbar .menu-mobile.open {
+            display: flex;
+        }
+
+        .navbar .menu-mobile a {
+            text-decoration: none;
+            background-color: #000; /* Black background */
+            color: white;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .menu-mobile a:hover {
+            background-color: #1976D2; /* Optionally, add a hover color */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-mobile.open {
+            display: flex;
+            animation: slideDown 0.3s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin: 30px 0;
+            color: #1a73e8;
+            text-align: center;
+        }        
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="#" class="logo">M3U TOOLS</a>
+        <div class="menu">
+            <!-- Home Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Info Checker</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/m3uinfoapp.html">home</a>
+                </div>
+            </div>
+            <!-- M3U Info Checker Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Info Checker</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/m3uinfoapp.html">M3U Info</a>
+                    <a href="https://m3u-tools.tiiny.site/xcinfoapp2.html">XCUI Info</a>
+                    <a href="https://m3u-tools.tiiny.site/bulkapp.html">Bulk Account Info</a>
+                </div>
+            </div>
+            <!-- epg Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Web Player</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/epgapp.html">EPG</a>
+
+                </div>
+            </div>
+
+            <!-- Web Player Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">Web Player</a>
+                <div class="dropdown-content">
+                    <a href="https://m3u-tools.tiiny.site/aplayerapp.html">Player</a>
+
+                </div>
+            </div>
+
+            <!-- GitHub Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)">GitHub</a>
+                <div class="dropdown-content">
+                    <a href="https://github.com/m3u-tools/m3utools">Repo</a>
+                    <a href="https://github.com/m3u-tools/m3utools/issues">Issues</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <div class="menu-mobile" id="menuMobile">
+            <a href="https://m3u-tools.tiiny.site/m3uinfoapp.html">Home</a>
+            <a href="https://m3u-tools.tiiny.site/m3uinfoapp2.html">M3U Info Checker</a>
+            <a href="https://m3u-tools.tiiny.site/xcinfoapp.html">XCUI Info Checker</a>        
+            <a href="https://m3u-tools.tiiny.site/bulkapp.html">Bulk Account Info</a>
+            <a href="https://m3u-tools.tiiny.site/epgapp.html">EPG</a>
+            <a href="https://m3u-tools.tiiny.site/aplayerapp.html">Web Player</a>
+            <a href="https://github.com/m3u-tools/m3utools">GitHub</a>
+        </div>
+    </div>
+<br>
+<br>
+<center><h1>Free USA EPG</h1></center>
+    <div id="guide-container"></div>
+    <div id="hidden-channels-container"></div> <!-- Container for hidden channels -->
+    <div id="videoPlayerContainer">
+        <video id="videoPlayer" controls autoplay></video>
+        <button id="closeButton" onclick="closePlayer()">X</button>
+    </div>
+
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const menuMobile = document.getElementById("menuMobile");
+
+            // Toggle menu visibility on hamburger click
+            hamburger.addEventListener("click", () => {
+                menuMobile.classList.toggle("open");
+            });
+
+            // Close menu if clicked outside
+            document.addEventListener("click", (e) => {
+                if (!menuMobile.contains(e.target) && !hamburger.contains(e.target)) {
+                    menuMobile.classList.remove("open");
+                }
+            });
+        });
+    const xmlUrl = "https://raw.githubusercontent.com/m3u-tools/epg/refs/heads/main/epg_ripper_US1.xml";
+    const jsonEpgUrl = "https://raw.githubusercontent.com/m3u-tools/epg/refs/heads/main/epg_ripper_US1.json";
+
+    const guideContainer = document.getElementById("guide-container");
+    const hiddenChannelsContainer = document.getElementById("hidden-channels-container");
+    let globalEpgData = null;
+    let globalChannelIcons = {};
+    let hiddenChannels = JSON.parse(localStorage.getItem("hiddenChannels")) || [];
+    let selectedChannelIndex = 0;
+    let selectedProgramIndex = 0;
+
+    async function fetchXmlChannels() {
+        const response = await fetch(xmlUrl);
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        return parser.parseFromString(xmlText, "application/xml");
+    }
+
+    async function fetchEpgData() {
+        const response = await fetch(jsonEpgUrl);
+        return response.json();
+    }
+
+    function parseChannelIcons(xmlDoc) {
+        const channels = xmlDoc.querySelectorAll("channel");
+        channels.forEach(channel => {
+            const id = channel.getAttribute("id");
+            const icon = channel.querySelector("icon");
+            if (icon) globalChannelIcons[id] = icon.getAttribute("src");
+        });
+        return Array.from(channels);
+    }
+
+    function renderGuide(channels) {
+        const currentTime = new Date();
+        const futureTime = new Date(currentTime.getTime() + 12 * 60 * 60 * 1000); // Current time + 12 hours
+        const fragment = document.createDocumentFragment();
+
+        channels.forEach(channel => {
+            const channelId = channel.getAttribute("id");
+            if (hiddenChannels.includes(channelId)) return;
+
+            const channelName = channel.querySelector("display-name").textContent;
+            const channelIcon = globalChannelIcons[channelId] || "";
+
+            const channelEpg = globalEpgData.channels.find(ch => ch.id === channelId);
+            if (!channelEpg || !channelEpg.programmes) return;
+
+            // Filter programs within the current time and +12 hours
+            const programs = channelEpg.programmes.filter(program => {
+                const start = parseEPGTime(program.start);
+                const stop = parseEPGTime(program.stop);
+                return stop > currentTime && start < futureTime;
+            });
+
+            if (programs.length === 0) return;
+
+            const channelRow = document.createElement("div");
+            channelRow.classList.add("channel-row");
+            if (selectedChannelIndex === channelId) {
+                channelRow.style.backgroundColor = "#333";
+            }
+
+            const channelInfo = document.createElement("div");
+            channelInfo.classList.add("channel-info");
+            channelInfo.innerHTML = `
+                <img src="${channelIcon}" alt="${channelName}" loading="lazy">
+                <span>${channelName}</span>
+                <button class="hide-button" onclick="hideChannel('${channelId}')">Hide</button>
+            `;
+            channelRow.appendChild(channelInfo);
+
+            const programList = document.createElement("div");
+            programList.classList.add("program-list");
+
+            programs.forEach((program, index) => {
+                const start = parseEPGTime(program.start);
+                const stop = parseEPGTime(program.stop);
+
+                const programBlock = document.createElement("div");
+                programBlock.classList.add("program-block");
+                if (start <= currentTime && stop >= currentTime) {
+                    programBlock.classList.add("current");
+                }
+
+                const programTime = document.createElement("div");
+                programTime.classList.add("program-time");
+                programTime.textContent = `${formatTime(start)} - ${formatTime(stop)}`;
+                programBlock.appendChild(programTime);
+
+                const programTitle = document.createElement("div");
+                programTitle.classList.add("program-title");
+                programTitle.textContent = program.title;
+                programBlock.appendChild(programTitle);
+
+                if (program.description) {
+                    const programDescription = document.createElement("div");
+                    programDescription.classList.add("program-description");
+                    programDescription.textContent = program.description;
+                    programBlock.appendChild(programDescription);
+                }
+
+                programBlock.addEventListener("click", () => {
+                    programBlock.classList.toggle("show-description");
+                });
+
+                if (index === selectedProgramIndex) {
+                    programBlock.style.backgroundColor = "#6ab7ff";
+                }
+
+                programList.appendChild(programBlock);
+            });
+
+            channelRow.appendChild(programList);
+            fragment.appendChild(channelRow);
+        });
+
+        guideContainer.innerHTML = '';
+        guideContainer.appendChild(fragment);
+    }
+
+    function hideChannel(channelId) {
+        if (!hiddenChannels.includes(channelId)) {
+            hiddenChannels.push(channelId);
+            localStorage.setItem("hiddenChannels", JSON.stringify(hiddenChannels));
+            renderGuide(globalEpgData.channels);
+            showHiddenChannels();
+        }
+    }
+
+    function showHiddenChannels() {
+        hiddenChannelsContainer.innerHTML = '';
+        hiddenChannels.forEach(channelId => {
+            const channelName = globalEpgData.channels.find(ch => ch.id === channelId)?.displayName;
+            const channelElement = document.createElement("div");
+            channelElement.classList.add("hidden-channel");
+            channelElement.textContent = channelName || `Channel ${channelId}`;
+            channelElement.addEventListener("click", () => unhideChannel(channelId));
+            hiddenChannelsContainer.appendChild(channelElement);
+        });
+    }
+
+    function unhideChannel(channelId) {
+        hiddenChannels = hiddenChannels.filter(id => id !== channelId);
+        localStorage.setItem("hiddenChannels", JSON.stringify(hiddenChannels));
+        renderGuide(globalEpgData.channels);
+        showHiddenChannels();
+    }
+
+    function parseEPGTime(epgTime) {
+        const year = epgTime.substring(0, 4);
+        const month = epgTime.substring(4, 6);
+        const day = epgTime.substring(6, 8);
+        const hour = epgTime.substring(8, 10);
+        const minute = epgTime.substring(10, 12);
+
+        const epgDate = new Date(`${year}-${month}-${day}T${hour}:${minute}`);
+        epgDate.setHours(epgDate.getHours() - 1);
+        return epgDate;
+    }
+
+    function formatTime(date) {
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function init() {
+        try {
+            const [xmlDoc, epgData] = await Promise.all([fetchXmlChannels(), fetchEpgData()]);
+            globalEpgData = epgData;
+
+            let channels = parseChannelIcons(xmlDoc);
+            channels.sort((a, b) => {
+                const nameA = a.querySelector("display-name").textContent.toUpperCase();
+                const nameB = b.querySelector("display-name").textContent.toUpperCase();
+                return nameA.localeCompare(nameB);
+            });
+
+            renderGuide(channels);
+            showHiddenChannels();
+        } catch (error) {
+            console.error("Error initializing guide:", error);
+        }
+    }
+
+    init();
+</script>
+
+</body>
+</html>
