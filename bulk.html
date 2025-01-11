@@ -612,7 +612,7 @@
                 const userInfo = data.user_info || {};
                 const serverInfo = data.server_info || {};
 
-                output = `<strong>Server URL:</strong> ${entry.replace('/get.php?', '')}<br>`;
+                output = `<strong>Server URL:</strong> ${entry}<br>`;
                 output += `<strong>Username:</strong> ${userInfo.username || "N/A"}<br>`;
                 output += `<strong>Password:</strong> ${userInfo.password || "N/A"}<br>`;
                 output += `<strong>Status:</strong> ${userInfo.status || "N/A"}<br>`;
@@ -674,14 +674,17 @@
     // Function to copy the results to clipboard
     function copyResults() {
         const resultDiv = document.getElementById('result');
-        let content = '';
+        let content = resultDiv.innerHTML
+            .replace(/<br>/g, '\n') // Replace <br> with new lines
+            .replace(/<\/?[^>]+(>|$)/g, ""); // Strip HTML tags
 
-        // Collect all the content, including headers and results
-        content += resultDiv.innerHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "") + '\n\n';
-
-        // Create a temporary textarea to copy the content
+        // Decode HTML entities
         const textarea = document.createElement('textarea');
-        textarea.value = content;
+        textarea.innerHTML = content;
+        const decodedContent = textarea.value;
+
+        // Copy to clipboard
+        textarea.value = decodedContent;
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand('copy');
@@ -693,13 +696,17 @@
     // Function to download the results as a .txt file
     function downloadResults() {
         const resultDiv = document.getElementById('result');
-        let content = '';
+        let content = resultDiv.innerHTML
+            .replace(/<br>/g, '\n') // Replace <br> with new lines
+            .replace(/<\/?[^>]+(>|$)/g, ""); // Strip HTML tags
 
-        // Collect all the content, including headers and results
-        content += resultDiv.innerHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "") + '\n\n';
+        // Decode HTML entities
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = content;
+        const decodedContent = textarea.value;
 
         // Create a downloadable file
-        const blob = new Blob([content], { type: 'text/plain' });
+        const blob = new Blob([decodedContent], { type: 'text/plain' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = 'results.txt';

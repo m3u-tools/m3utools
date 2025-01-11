@@ -566,7 +566,7 @@
         document.getElementById('downloadButton').style.display = activeResults || inactiveResults ? 'block' : 'none';
     }
 
-    // Updated checkEntry to use cache and reduce redundant requests
+    // Updated checkEntry to show the result in the required format
     async function checkEntry(entry, format, cache) {
         if (cache.has(entry)) {
             return cache.get(entry); // Return cached result if entry is already checked
@@ -588,7 +588,7 @@
                 const userInfo = data.user_info || {};
                 const serverInfo = data.server_info || {};
 
-                output = `\n${entry}\n`;
+                output = `<strong>Server URL:</strong> ${entry}<br>`;
                 output += `<strong>Username:</strong> ${userInfo.username || "N/A"}<br>`;
                 output += `<strong>Password:</strong> ${userInfo.password || "N/A"}<br>`;
                 output += `<strong>Status:</strong> ${userInfo.status || "N/A"}<br>`;
@@ -598,10 +598,16 @@
                 output += `<strong>Max Connections:</strong> ${userInfo.max_connections || "N/A"}<br>`;
                 output += `<strong>Allowed Outputs:</strong> ${userInfo.allowed_output_formats || "N/A"}<br>`;
                 output += `<strong>Server Protocol:</strong> ${serverInfo.server_protocol || "N/A"}<br>`;
-                output += `<strong>Server URL:</strong> ${serverInfo.url || "N/A"}<br>`;
                 output += `<strong>Timezone:</strong> ${serverInfo.timezone || "N/A"}<br>`;
 
-                isActive = true;
+                // Check expiration date
+                const currentDate = Date.now();
+                const expirationDate = userInfo.exp_date * 1000;
+                if (expirationDate < currentDate) {
+                    isActive = false; // Mark as inactive if expired
+                } else {
+                    isActive = true; // Active if not expired
+                }
             }
         } else if (format === 'xi') {
             const [url, username, password] = entry.split('*');
@@ -611,14 +617,28 @@
             if (response && response.ok) {
                 const data = await response.json();
                 const userInfo = data.user_info || {};
+                const serverInfo = data.server_info || {};
 
-                output = `\n${entry}\n`;
-                output += `<strong>Username:</strong> ${userInfo.username || "N/A"}<br>`;
+                output = `<strong>Server URL:</strong> ${url}<br>`;
+                output += `<strong>Username:</strong> ${username}<br>`;
+                output += `<strong>Password:</strong> ${password}<br>`;
                 output += `<strong>Status:</strong> ${userInfo.status || "N/A"}<br>`;
                 output += `<strong>Created Date:</strong> ${userInfo.created_at ? new Date(userInfo.created_at * 1000).toLocaleString() : "N/A"}<br>`;
                 output += `<strong>Expiration Date:</strong> ${userInfo.exp_date ? new Date(userInfo.exp_date * 1000).toLocaleString() : "N/A"}<br>`;
+                output += `<strong>Active Connections:</strong> ${userInfo.active_cons || "N/A"}<br>`;
+                output += `<strong>Max Connections:</strong> ${userInfo.max_connections || "N/A"}<br>`;
+                output += `<strong>Allowed Outputs:</strong> ${userInfo.allowed_output_formats || "N/A"}<br>`;
+                output += `<strong>Server Protocol:</strong> ${serverInfo.server_protocol || "N/A"}<br>`;
+                output += `<strong>Timezone:</strong> ${serverInfo.timezone || "N/A"}<br>`;
 
-                isActive = true;
+                // Check expiration date
+                const currentDate = Date.now();
+                const expirationDate = userInfo.exp_date * 1000;
+                if (expirationDate < currentDate) {
+                    isActive = false; // Mark as inactive if expired
+                } else {
+                    isActive = true; // Active if not expired
+                }
             }
         }
 
@@ -630,14 +650,17 @@
     // Function to copy the results to clipboard
     function copyResults() {
         const resultDiv = document.getElementById('result');
-        let content = '';
+        let content = resultDiv.innerHTML
+            .replace(/<br>/g, '\n') // Replace <br> with new lines
+            .replace(/<\/?[^>]+(>|$)/g, ""); // Strip HTML tags
 
-        // Collect all the content, including headers and results
-        content += resultDiv.innerHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "") + '\n\n';
-
-        // Create a temporary textarea to copy the content
+        // Decode HTML entities
         const textarea = document.createElement('textarea');
-        textarea.value = content;
+        textarea.innerHTML = content;
+        const decodedContent = textarea.value;
+
+        // Copy to clipboard
+        textarea.value = decodedContent;
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand('copy');
@@ -649,19 +672,23 @@
     // Function to download the results as a .txt file
     function downloadResults() {
         const resultDiv = document.getElementById('result');
-        let content = '';
+        let content = resultDiv.innerHTML
+            .replace(/<br>/g, '\n') // Replace <br> with new lines
+            .replace(/<\/?[^>]+(>|$)/g, ""); // Strip HTML tags
 
-        // Collect all the content, including headers and results
-        content += resultDiv.innerHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "") + '\n\n';
+        // Decode HTML entities
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = content;
+        const decodedContent = textarea.value;
 
         // Create a downloadable file
-        const blob = new Blob([content], { type: 'text/plain' });
+        const blob = new Blob([decodedContent], { type: 'text/plain' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = 'results.txt';
         link.click();
     }
-    
+
     document.addEventListener("DOMContentLoaded", () => {
         const hamburger = document.getElementById("hamburger");
         const menuMobile = document.getElementById("menuMobile");
